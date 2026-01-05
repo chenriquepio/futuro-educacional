@@ -1,6 +1,10 @@
+"use client";
 import Image from "next/image";
+import ButtonWithIcon from "./ButtonWithIcon";
+import { useRouter } from "next/navigation";
 
 export default function Hero() {
+  const router = useRouter();
   return (
     <section className="relative text-white overflow-hidden min-h-[600px] lg:h-screen lg:max-h-[786px]">
       {/* Background image */}
@@ -49,35 +53,13 @@ export default function Hero() {
               <span className="font-black underline">
                 Matrículas 2026 abertas
               </span>
-              : do Infantil ao Ensino Médio, <br className="hidden md:block" /> prepare seu filho para um
-              futuro de conquistas.
+              : do Infantil ao Ensino Médio, <br className="hidden md:block" />{" "}
+              prepare seu filho para um futuro de conquistas.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-              <a
-                href="#contato"
-                className="bg-transparent text-[#001F63] border border-[#FDC938] rounded-full font-semibold transition-all duration-300 flex items-center gap-2 justify-center sm:justify-start"
-                style={{ padding: "1px 4px" }}
-              >
-                <span className="bg-[#FDC938] rounded-full px-4 md:px-6 py-2 flex items-center gap-4 text-sm md:text-base">
-                  Conheça o seu futuro
-                  <svg
-                    width="14"
-                    height="14"
-                    viewBox="0 0 14 14"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="shrink-0"
-                  >
-                    <path
-                      d="M1 1.00002L13 1M13 1L13 13M13 1L1.00002 13"
-                      stroke="#001F63"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </span>
-              </a>
+            <div className="flex flex-col sm:flex-row gap-4 items-center  lg:justify-start">
+              <ButtonWithIcon className="w-fit" onClick={() => router.push("/contato")}>
+                Conheça o seu futuro
+              </ButtonWithIcon>
               <button className="px-4 md:px-6 py-3 bg-[#89b0c882] text-[#000000] rounded-full border-[3px] border-white font-medium hover:opacity-90 flex items-center justify-center gap-2 text-sm md:text-base">
                 Veja nosso ensino
               </button>

@@ -11,6 +11,7 @@ import {
 } from "../../../../sanity/lib/fetch";
 import { urlFor } from "../../../../sanity/lib/client";
 import { PortableText } from "@portabletext/react";
+import NewsletterForm from "../components/NewsletterForm";
 
 // Dados de fallback
 const fallbackPost: BlogPost = {
@@ -495,27 +496,7 @@ export default async function BlogPostPage({ params }: PageProps) {
               </div>
 
               {/* CTA Newsletter */}
-              <div className="bg-gradient-to-br from-[#1C437F] to-[#2A5A9E] rounded-lg p-6 text-white">
-                <h3 className="text-xl font-bold mb-2">
-                  Receba nossas novidades
-                </h3>
-                <p className="text-white/80 text-sm mb-4">
-                  Cadastre-se e receba dicas de estudo diretamente no seu e-mail.
-                </p>
-                <form className="space-y-3">
-                  <input
-                    type="email"
-                    placeholder="Seu e-mail"
-                    className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-[#FDC938]"
-                  />
-                  <button
-                    type="submit"
-                    className="w-full bg-[#FDC938] text-[#17012C] font-bold py-3 rounded-lg hover:bg-[#FDC938]/90 transition-colors"
-                  >
-                    Inscrever-se
-                  </button>
-                </form>
-              </div>
+              <NewsletterForm />
             </aside>
           </div>
         </div>

@@ -6,6 +6,7 @@ interface ButtonWithIconProps {
   type?: "button" | "submit" | "reset";
   className?: string;
   icon?: React.ReactNode;
+  disabled?: boolean;
 }
 
 export default function ButtonWithIcon({
@@ -13,6 +14,7 @@ export default function ButtonWithIcon({
   onClick,
   type = "button",
   className = "",
+  disabled = false,
   icon = (
     <svg
       width="14"
@@ -36,7 +38,8 @@ export default function ButtonWithIcon({
     <button
       type={type}
       onClick={onClick}
-      className={`bg-transparent text-[#001F63] border border-[#FDC938] rounded-full font-semibold transition-all duration-300 flex items-center gap-2 justify-center ${className}`}
+      disabled={disabled}
+      className={`bg-transparent text-[#001F63] border border-[#FDC938] rounded-full font-semibold transition-all duration-300 flex items-center gap-2 justify-center ${disabled ? "opacity-50 cursor-not-allowed" : ""} ${className}`}
       style={{ padding: "3px" }}
     >
       <span className="bg-[#FDC938] rounded-full px-6 py-2 flex items-center gap-4">

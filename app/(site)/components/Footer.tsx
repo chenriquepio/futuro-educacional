@@ -1,8 +1,11 @@
+"use client";
 import Image from "next/image";
-import React from "react";
+
 import ButtonWithIcon from "./ButtonWithIcon";
+import { useRouter } from "next/navigation";
 
 export default function Footer() {
+  const router = useRouter();
   return (
     <footer className="bg-[#1C437F] text-white">
       <div className="container mx-auto px-4 py-8 md:py-12">
@@ -27,6 +30,7 @@ export default function Footer() {
             </p>
             <div className="flex justify-center md:justify-start">
               <ButtonWithIcon
+                onClick={() => router.push("/#contato")}
                 icon={
                   <svg
                     width="21"
@@ -135,15 +139,18 @@ export default function Footer() {
             </div>
             <ul className="space-y-2">
               {[
-                "Início",
-                "Nosso Grupo",
-                "Ensino",
-                "Documentos",
-                "Trabalhe conosco",
-                "Blog",
-                "Contato",
-              ].map((label) => (
-                <li key={label} className="flex items-center justify-center md:justify-start gap-4">
+                { name: "Início", link: "/" },
+                { name: "Nosso Grupo", link: "/nosso-grupo" },
+                { name: "Ensino", link: "/ensino" },
+                { name: "Documentos", link: "/documentos" },
+                { name: "Trabalhe conosco", link: "/trabalhe-conosco" },
+                { name: "Blog", link: "/blog" },
+                { name: "Contato", link: "#contato" },
+              ].map((item) => (
+                <li
+                  key={item.name}
+                  className="flex items-center justify-center md:justify-start gap-4"
+                >
                   <Image
                     src="/links-arrow.svg"
                     alt=""
@@ -151,8 +158,11 @@ export default function Footer() {
                     height={11}
                     className="shrink-0"
                   />
-                  <a href="#" className="text-gray-300 hover:text-white text-sm md:text-base">
-                    {label}
+                  <a
+                    href={item.link}
+                    className="text-gray-300 hover:text-white text-sm md:text-base"
+                  >
+                    {item.name}
                   </a>
                 </li>
               ))}

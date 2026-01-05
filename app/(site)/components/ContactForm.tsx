@@ -1,11 +1,18 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, FormEvent } from "react";
 import Image from "next/image";
 import ButtonWithIcon from "./ButtonWithIcon";
 
 export default function ContactForm() {
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
+  const [message, setMessage] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
+  const [errorMessage, setErrorMessage] = useState("");
 
   const formatPhone = (value: string) => {
     const numbers = value.replace(/\D/g, "");
@@ -19,6 +26,50 @@ export default function ContactForm() {
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const formatted = formatPhone(e.target.value);
     setPhone(formatted);
+  };
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus("idle");
+    setErrorMessage("");
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          firstName,
+          lastName,
+          email,
+          phone,
+          message,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || "Erro ao enviar mensagem");
+      }
+
+      setSubmitStatus("success");
+      // Limpar o formulário
+      setFirstName("");
+      setLastName("");
+      setEmail("");
+      setPhone("");
+      setMessage("");
+    } catch (error) {
+      setSubmitStatus("error");
+      setErrorMessage(
+        error instanceof Error ? error.message : "Erro ao enviar mensagem. Tente novamente."
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -48,11 +99,22 @@ export default function ContactForm() {
             </div>
 
             <form
+              onSubmit={handleSubmit}
               className="bg-[#1C437F] rounded-[20px] md:rounded-[30px] py-6 md:py-8 px-6 md:px-12 text-white"
               style={{
                 boxShadow: "10px 10px 15px 0px #00000033",
               }}
             >
+              {submitStatus === "success" && (
+                <div className="mb-4 p-4 bg-green-500/20 border border-green-500 rounded-[10px] text-white text-sm">
+                  Mensagem enviada com sucesso! Entraremos em contato em breve.
+                </div>
+              )}
+              {submitStatus === "error" && (
+                <div className="mb-4 p-4 bg-red-500/20 border border-red-500 rounded-[10px] text-white text-sm">
+                  {errorMessage || "Erro ao enviar mensagem. Tente novamente."}
+                </div>
+              )}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                 <div>
                   <label className="block mb-2 text-sm font-medium text-white">
@@ -60,8 +122,12 @@ export default function ContactForm() {
                   </label>
                   <input
                     type="text"
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
                     placeholder="Nome"
-                    className="w-full px-4 md:px-6 py-3 md:py-4 rounded-[10px] bg-white text-[#1e3a5f] focus:outline-none focus:ring-2 focus:ring-[#fbbf24] placeholder-[#A9A9A9] text-sm md:text-base"
+                    required
+                    disabled={isSubmitting}
+                    className="w-full px-4 md:px-6 py-3 md:py-4 rounded-[10px] bg-white text-[#1e3a5f] focus:outline-none focus:ring-2 focus:ring-[#fbbf24] placeholder-[#A9A9A9] text-sm md:text-base disabled:opacity-50 disabled:cursor-not-allowed"
                   />
                 </div>
                 <div>
@@ -70,8 +136,12 @@ export default function ContactForm() {
                   </label>
                   <input
                     type="text"
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
                     placeholder="Sobrenome"
-                    className="w-full px-4 md:px-6 py-3 md:py-4 rounded-[10px] bg-white text-[#1e3a5f] focus:outline-none focus:ring-2 focus:ring-[#fbbf24] placeholder-[#A9A9A9] text-sm md:text-base"
+                    required
+                    disabled={isSubmitting}
+                    className="w-full px-4 md:px-6 py-3 md:py-4 rounded-[10px] bg-white text-[#1e3a5f] focus:outline-none focus:ring-2 focus:ring-[#fbbf24] placeholder-[#A9A9A9] text-sm md:text-base disabled:opacity-50 disabled:cursor-not-allowed"
                   />
                 </div>
               </div>
@@ -86,7 +156,9 @@ export default function ContactForm() {
                     onChange={handlePhoneChange}
                     placeholder="(00) 00000-0000"
                     maxLength={15}
-                    className="w-full px-4 md:px-6 py-3 md:py-4 rounded-[10px] bg-white text-[#1e3a5f] focus:outline-none focus:ring-2 focus:ring-[#fbbf24] placeholder-[#A9A9A9] text-sm md:text-base"
+                    required
+                    disabled={isSubmitting}
+                    className="w-full px-4 md:px-6 py-3 md:py-4 rounded-[10px] bg-white text-[#1e3a5f] focus:outline-none focus:ring-2 focus:ring-[#fbbf24] placeholder-[#A9A9A9] text-sm md:text-base disabled:opacity-50 disabled:cursor-not-allowed"
                   />
                 </div>
                 <div>
@@ -95,8 +167,12 @@ export default function ContactForm() {
                   </label>
                   <input
                     type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                     placeholder="email@exemplo.com"
-                    className="w-full px-4 md:px-6 py-3 md:py-4 rounded-[10px] bg-white text-[#1e3a5f] focus:outline-none focus:ring-2 focus:ring-[#fbbf24] placeholder-[#A9A9A9] text-sm md:text-base"
+                    required
+                    disabled={isSubmitting}
+                    className="w-full px-4 md:px-6 py-3 md:py-4 rounded-[10px] bg-white text-[#1e3a5f] focus:outline-none focus:ring-2 focus:ring-[#fbbf24] placeholder-[#A9A9A9] text-sm md:text-base disabled:opacity-50 disabled:cursor-not-allowed"
                   />
                 </div>
               </div>
@@ -107,12 +183,18 @@ export default function ContactForm() {
                 </label>
                 <textarea
                   rows={4}
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
                   placeholder="Sua mensagem aqui..."
-                  className="w-full px-4 md:px-6 py-3 md:py-4 rounded-[10px] bg-white text-[#1e3a5f] focus:outline-none focus:ring-2 focus:ring-[#fbbf24] placeholder-[#A9A9A9] text-sm md:text-base"
+                  required
+                  disabled={isSubmitting}
+                  className="w-full px-4 md:px-6 py-3 md:py-4 rounded-[10px] bg-white text-[#1e3a5f] focus:outline-none focus:ring-2 focus:ring-[#fbbf24] placeholder-[#A9A9A9] text-sm md:text-base disabled:opacity-50 disabled:cursor-not-allowed"
                 ></textarea>
               </div>
               <div className="flex justify-center">
-                <ButtonWithIcon type="submit">Enviar mensagem</ButtonWithIcon>
+                <ButtonWithIcon type="submit" disabled={isSubmitting}>
+                  {isSubmitting ? "Enviando..." : "Enviar mensagem"}
+                </ButtonWithIcon>
               </div>
             </form>
           </div>
