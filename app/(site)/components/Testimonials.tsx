@@ -96,11 +96,11 @@ export default function Testimonials() {
                 style={{ 
                   maxWidth: `${SLIDER_MAX_WIDTH}px`,
                   WebkitMaskImage: isMobile 
-                    ? 'linear-gradient(to right, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 85%, rgba(0, 0, 0, 0) 100%)'
-                    : 'linear-gradient(to right, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 70%, rgba(0, 0, 0, 0.3) 90%, rgba(0, 0, 0, 0) 100%)',
+                    ? 'linear-gradient(to right, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.95) 75%, rgba(0, 0, 0, 0.6) 85%, rgba(0, 0, 0, 0.3) 92%, rgba(0, 0, 0, 0) 100%)'
+                    : 'linear-gradient(to right, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.95) 60%, rgba(0, 0, 0, 0.7) 75%, rgba(0, 0, 0, 0.4) 85%, rgba(0, 0, 0, 0.15) 92%, rgba(0, 0, 0, 0) 100%)',
                   maskImage: isMobile 
-                    ? 'linear-gradient(to right, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 85%, rgba(0, 0, 0, 0) 100%)'
-                    : 'linear-gradient(to right, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 1) 70%, rgba(0, 0, 0, 0.3) 90%, rgba(0, 0, 0, 0) 100%)',
+                    ? 'linear-gradient(to right, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.95) 75%, rgba(0, 0, 0, 0.6) 85%, rgba(0, 0, 0, 0.3) 92%, rgba(0, 0, 0, 0) 100%)'
+                    : 'linear-gradient(to right, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.95) 60%, rgba(0, 0, 0, 0.7) 75%, rgba(0, 0, 0, 0.4) 85%, rgba(0, 0, 0, 0.15) 92%, rgba(0, 0, 0, 0) 100%)',
                 }}
               >
                 <div

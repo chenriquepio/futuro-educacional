@@ -11,8 +11,18 @@ type DifferentialCard = {
   imageLabel?: string;
 };
 
-export default function OurDifferential() {
-  const differentials: DifferentialCard[] = [
+type OurDifferentialProps = {
+  differentials?: DifferentialCard[];
+  eyebrow?: string;
+  title?: string | React.ReactNode;
+};
+
+export default function OurDifferential({
+  differentials: customDifferentials,
+  eyebrow,
+  title,
+}: OurDifferentialProps = {}) {
+  const defaultDifferentials: DifferentialCard[] = [
     {
       title: "Desenvolvimento de autonomia do estudante",
       imageSrc: "/57e4b9f1a012cdf21feaf9178a9afbc447796871.jpg",
@@ -39,6 +49,8 @@ export default function OurDifferential() {
       imageSrc: "/9b1c6dfcba9e9481a54c53248e1d40a5b80884d2.jpg",
     },
   ];
+
+  const differentials = customDifferentials || defaultDifferentials;
 
   // Responsive card sizes
   const [isMobile, setIsMobile] = useState(false);
@@ -89,14 +101,18 @@ export default function OurDifferential() {
             className="bg-[#1C437F] mb-6 md:mb-8 text-white rounded-full px-4 py-2 font-semibold inline-block uppercase tracking-wide text-sm"
             style={{ fontFamily: "var(--font-poppins)" }}
           >
-            Nosso diferencial
+            {eyebrow || "Nosso diferencial"}
           </span>
           <h2 className="text-2xl md:text-4xl mt-2 mb-4 max-w-[1064px] mx-auto px-2">
-            Com uma{" "}
-            <span className="font-extrabold text-[#1e3a5f]">
-              educação transformadora
-            </span>
-            , nossos estudantes desenvolvem habilidades e valores para a vida.
+            {title || (
+              <>
+                Com uma{" "}
+                <span className="font-extrabold text-[#1e3a5f]">
+                  educação transformadora
+                </span>
+                , nossos estudantes desenvolvem habilidades e valores para a vida.
+              </>
+            )}
           </h2>
         </div>
 

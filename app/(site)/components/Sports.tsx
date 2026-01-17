@@ -1,10 +1,11 @@
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 import ButtonWithIcon from "./ButtonWithIcon";
 
 export default function Sports() {
   return (
-    <section 
+    <section
       className="py-12 md:py-16 relative overflow-hidden"
       style={{
         backgroundImage: "url('/BACKGROUND-sport.png')",
@@ -13,11 +14,11 @@ export default function Sports() {
         backgroundRepeat: "no-repeat",
       }}
     >
-      {/* Athletes image - absolutely positioned on desktop, hidden on mobile */}
-      <div className="absolute bottom-0 left-0 right-0 z-10 hidden md:block">
+      {/* Athletes image - absolutely positioned on all screen sizes */}
+      <div className="absolute bottom-0 left-0 right-0 z-10">
         <div className="container mx-auto px-4">
           <div className="flex-1 max-w-md mx-auto md:mx-0">
-            <div className="relative w-full h-96">
+            <div className="relative w-full h-56 md:h-96">
               <Image
                 src="/freepik__background__78261 1.png"
                 alt="Atletas com Troféu"
@@ -30,7 +31,7 @@ export default function Sports() {
         </div>
       </div>
 
-      <div className="container mx-auto px-4 relative z-10">
+      <div className="container mx-auto px-4 relative z-10 pb-64 md:pb-0">
         <div className="flex flex-col md:flex-row gap-6 md:gap-12 items-start">
           {/* Left side - Spacer for image on desktop */}
           <div className="flex-1 hidden md:block"></div>
@@ -55,21 +56,10 @@ export default function Sports() {
               O esporte formando campeões e cidadãos.
             </p>
             <div className="flex justify-center md:justify-start">
-              <ButtonWithIcon>Conheça todas modalidades</ButtonWithIcon>
+              <Link href="/esportes" className="inline-block">
+                <ButtonWithIcon>Conheça todas modalidades</ButtonWithIcon>
+              </Link>
             </div>
-          </div>
-        </div>
-
-        {/* Athletes image - in flow on mobile only */}
-        <div className="mt-6 md:hidden">
-          <div className="relative w-full h-56 max-w-xs mx-auto">
-            <Image
-              src="/freepik__background__78261 1.png"
-              alt="Atletas com Troféu"
-              fill
-              className="object-contain"
-              style={{ objectPosition: "bottom" }}
-            />
           </div>
         </div>
       </div>

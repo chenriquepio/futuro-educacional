@@ -3,7 +3,7 @@
 import Image from "next/image";
 import ContactForm from "../components/ContactForm";
 import HeroShowcase from "../components/HeroShowcase";
-import ButtonWithIcon from "../components/ButtonWithIcon";
+import DynamicHeroContent from "../components/DynamicHeroContent";
 import { useState } from "react";
 
 const educationalStages = [
@@ -158,7 +158,7 @@ export default function EnsinoPage() {
       <section className="pt-8 md:pt-16 bg-white">
         <div className="container mx-auto px-4">
           {/* Mobile: Horizontal scroll */}
-          <div className="flex md:hidden overflow-x-auto pb-4 gap-4 -mx-4 px-4 scrollbar-hide">
+          <div className="flex md:hidden overflow-x-auto  md:pb-4 pb-0 gap-4 -mx-4 px-4 md:pt-0 pt-4 ">
             {educationalStages.map((stage, index) => (
               <div key={index} className="flex flex-col items-center shrink-0">
                 <button
@@ -207,7 +207,7 @@ export default function EnsinoPage() {
           </div>
 
           {/* Desktop: Original layout */}
-          <div className="hidden md:flex flex-wrap justify-center gap-6">
+          <div className="hidden md:flex  justify-center gap-6">
             {educationalStages.map((stage, index) => (
               <div key={index} className="flex flex-col items-center">
                 <button
@@ -226,8 +226,10 @@ export default function EnsinoPage() {
                     <div
                       className="absolute inset-0"
                       style={{
-                        maskImage: "linear-gradient(to bottom, black 75%, transparent 75%)",
-                        WebkitMaskImage: "linear-gradient(to bottom, black 75%, transparent 75%)",
+                        maskImage:
+                          "linear-gradient(to bottom, black 75%, transparent 75%)",
+                        WebkitMaskImage:
+                          "linear-gradient(to bottom, black 75%, transparent 75%)",
                       }}
                     >
                       <Image
@@ -273,69 +275,13 @@ export default function EnsinoPage() {
       </section>
 
       {/* Dynamic Content Section */}
-      <section className="py-12 md:py-20 text-white relative overflow-hidden">
-        <div
-          className="absolute inset-0 transition-all duration-500 mt-[-80px]"
-          style={{
-            backgroundImage: `url(${currentContent.background})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            backgroundRepeat: "no-repeat",
-          }}
-        />
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="grid lg:grid-cols-2 gap-8 md:gap-12 items-center">
-            <div className="relative pl-0 md:pl-12 order-2 lg:order-1">
-              <div className="relative max-w-[320px] md:max-w-[480px] h-[400px] md:h-[600px] mx-auto lg:mx-0">
-                <Image
-                  src={currentContent.image}
-                  alt={currentContent.title}
-                  fill
-                  className="object-contain rounded-lg transition-all duration-500"
-                />
-              </div>
-            </div>
-            <div className="order-1 lg:order-2 text-center lg:text-left">
-              <h2 className="text-2xl md:text-4xl font-extrabold mb-4 md:mb-6">
-                {currentContent.title}
-              </h2>
-              <p className="text-base md:text-lg text-white/90 font-medium mb-4 md:mb-6 leading-relaxed">
-                {currentContent.description}
-              </p>
-              <div className="border-t border-[#DEE6F1] my-4"></div>
-              <div className="space-y-3 md:space-y-4 mb-6 md:mb-8 text-left">
-                {currentContent.highlights.map((highlight, index) => (
-                  <div
-                    key={index}
-                    className="flex items-start md:items-center gap-2"
-                  >
-                    <div className="w-5 h-5 bg-[#FDC938] rounded-full mr-2 flex items-center justify-center shrink-0 mt-0.5 md:mt-0">
-                      <svg
-                        width="11"
-                        height="8"
-                        viewBox="0 0 11 8"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M10.3594 0.304688C10.6641 0.585938 10.6641 1.07812 10.3594 1.35938L4.35938 7.35938C4.07812 7.66406 3.58594 7.66406 3.30469 7.35938L0.304688 4.35938C0 4.07812 0 3.58594 0.304688 3.30469C0.585938 3 1.07812 3 1.35938 3.30469L3.82031 5.76562L9.30469 0.304688C9.58594 0 10.0781 0 10.3594 0.304688Z"
-                          fill="#1C437F"
-                        />
-                      </svg>
-                    </div>
-                    <p className="text-white font-medium text-sm md:text-base">
-                      {highlight}
-                    </p>
-                  </div>
-                ))}
-              </div>
-              <div className="flex justify-center lg:justify-start">
-                <ButtonWithIcon>Fale conosco</ButtonWithIcon>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <DynamicHeroContent
+        title={currentContent.title}
+        description={currentContent.description}
+        image={currentContent.image}
+        background={currentContent.background}
+        highlights={currentContent.highlights}
+      />
 
       {/* Section 1 - Dynamic */}
       <section className="pt-12 md:pt-20 pb-5  bg-white">

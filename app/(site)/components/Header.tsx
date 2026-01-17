@@ -173,7 +173,7 @@ export default function Header() {
 
         {/* Mobile Menu */}
         <div
-          className={`fixed top-[70px] left-0 right-0 bg-gradient-to-b from-[#001F63] to-[#002576] z-50 lg:hidden transition-all duration-300 ${
+          className={`fixed top-[33px] left-0 right-0 bg-gradient-to-b from-[#001F63] to-[#002576] z-50 lg:hidden transition-all duration-300 ${
             isMobileMenuOpen
               ? "opacity-100 translate-y-0"
               : "opacity-0 -translate-y-full pointer-events-none"

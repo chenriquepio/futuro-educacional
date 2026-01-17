@@ -6,7 +6,7 @@ import EducationalStages from "./components/EducationalStages";
 import ContactForm from "./components/ContactForm";
 import OurDifferential from "./components/OurDifferential";
 import Sports from "./components/Sports";
-import AlumniStories from "./components/AlumniStories";
+import StoriesSection from "./components/StoriesSection";
 import Testimonials from "./components/Testimonials";
 
 export default function Home() {
@@ -43,7 +43,37 @@ export default function Home() {
         <Sports />
       </section>
       <section id="alunos">
-        <AlumniStories />
+        <StoriesSection
+          eyebrow="EM ALTA"
+          title="Para Sempre Futuro"
+          description="Relembre conquistas e trajetórias de quem levou nossa escola no coração"
+          stories={[
+            {
+              title:
+                "Do Futuro para o Mundo: Como Ana transformou sua paixão em carreira",
+              image: "/IMG.png",
+              creator: "Ana",
+              cargo: "Ex Alunos",
+              data: "16 de outubro de 2025",
+            },
+            {
+              title: "Ex-aluno conquista destaque no esporte internacional",
+              image: "/IMG-1.png",
+              creator: "João",
+              cargo: "Ex Alunos",
+              data: "16 de outubro de 2025",
+            },
+            {
+              title:
+                "Do Futuro para a Justiça: ex-aluna realiza o sonho de se tornar juíza",
+              image: "/IMG-2.png",
+              creator: "Maria",
+              cargo: "Ex Alunos",
+              data: "16 de outubro de 2025",
+            },
+          ]}
+          creatorLabel="Criador:"
+        />
       </section>
       <section id="depoimentos">
         <Testimonials />

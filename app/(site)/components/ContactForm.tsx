@@ -96,6 +96,9 @@ export default function ContactForm() {
               <h2 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-[#253858] mt-2">
                 Deixe-nos uma mensagem
               </h2>
+              <div className="flex justify-center md:justify-start mt-4">
+                <ButtonWithIcon>Fale conosco</ButtonWithIcon>
+              </div>
             </div>
 
             <form
