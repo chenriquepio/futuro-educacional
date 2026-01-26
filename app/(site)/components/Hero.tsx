@@ -23,15 +23,16 @@ export default function Hero() {
           {/* Left side - Student image */}
           <div className="flex-1 w-full lg:w-auto order-2 lg:order-1">
             <div className="relative">
-              {/* Green outline frame */}
-              <div className="absolute -inset-4 rounded-lg"></div>
-              <div className="rounded-lg w-full h-[300px] md:h-[400px] lg:h-[500px] relative overflow-hidden">
+              <div className="rounded-lg w-full h-[300px] md:h-[400px] lg:h-[500px] relative overflow-visible">
                 <Image
                   src="/student.png"
                   alt="Estudante"
                   fill
                   className="object-contain"
                   priority
+                  style={{
+                    filter: `drop-shadow(0 -2px 0 #22c55e) drop-shadow(0 2px 0 #22c55e) drop-shadow(-2px 0 0 #22c55e) drop-shadow(2px 0 0 #22c55e) drop-shadow(-1px -1px 0 #22c55e) drop-shadow(1px -1px 0 #22c55e) drop-shadow(-1px 1px 0 #22c55e) drop-shadow(1px 1px 0 #22c55e)`
+                  }}
                 />
               </div>
             </div>

@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Preparar o documento da candidatura
-    const applicationDoc: Record<string, unknown> = {
+    const applicationDoc: Record<string, any> = {
       _type: "jobApplication",
       name,
       email,
@@ -95,7 +95,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Criar o documento no Sanity
-    const result = await writeClient.create(applicationDoc);
+    const result = await writeClient.create(applicationDoc as any);
 
     return NextResponse.json({
       success: true,

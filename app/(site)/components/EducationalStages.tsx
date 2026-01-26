@@ -4,7 +4,7 @@ import Image from "next/image";
 export default function EducationalStages() {
   const stages = [
     { name: "Infantil", image: "/ENSINO INFANTIL.svg" },
-    { name: "Fundamental I", image: "/ENSINO FUNDAMENTAL II.svg" },
+    { name: "Fundamental I", image: "/ENSINO FUNDAMENTAL I.svg" }, 
     { name: "Fundamental II", image: "/ENSINO FUNDAMENTAL II.svg" },
     { name: "Ensino Médio", image: "/ENSINO MÉDIO.svg" },
     { name: "Cursinho", image: "/CURSINHO.svg" },
@@ -33,7 +33,7 @@ export default function EducationalStages() {
           </h2>
         </div>
 
-        <div className="flex flex-wrap justify-center gap-4 md:gap-6">
+        <div className="flex flex-nowrap justify-center gap-4 md:gap-6">
           {stages.map((stage, index) => (
             <div key={index} className="relative">
               <div className="w-full h-full flex flex-col items-center justify-center">
