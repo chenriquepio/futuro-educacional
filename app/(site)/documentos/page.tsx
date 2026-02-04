@@ -1,8 +1,15 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import ContactForm from "../components/ContactForm";
 import HeroShowcase from "../components/HeroShowcase";
 import ButtonWithIcon from "../components/ButtonWithIcon";
 import { getDocuments, type Document } from "../../../sanity/lib/fetch";
+
+export const metadata: Metadata = {
+  title: "Documentos",
+  description:
+    "Documentos do Futuro Educacional: manual do estudante, proposta pedagógica, regimento interno e outros materiais para a comunidade escolar.",
+};
 
 // Dados estáticos de fallback (usados quando o CMS não está configurado)
 const fallbackDocuments = [

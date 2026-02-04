@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
@@ -12,6 +13,8 @@ import {
 import { urlFor } from "../../../../sanity/lib/client";
 import { PortableText } from "@portabletext/react";
 import NewsletterForm from "../components/NewsletterForm";
+
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
 // Dados de fallback
 const fallbackPost: BlogPost = {
@@ -65,6 +68,55 @@ const fallbackLatestPosts: BlogPost[] = [
 
 interface PageProps {
   params: Promise<{ slug: string }>;
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { slug } = await params;
+  let post: BlogPost | null = null;
+  if (process.env.NEXT_PUBLIC_SANITY_PROJECT_ID) {
+    try {
+      post = await getBlogPostBySlug(slug);
+    } catch {
+      // ignore
+    }
+  }
+  if (!post && slug === "5-dicas-redacao") {
+    post = fallbackPost;
+  }
+  if (!post) {
+    return { title: "Post não encontrado" };
+  }
+  const title = post.title;
+  const description = post.excerpt || undefined;
+  const canonical = `${siteUrl}/blog/${post.slug?.current || slug}`;
+  let imageUrl: string | undefined;
+  if (post.mainImage) {
+    try {
+      imageUrl = urlFor(post.mainImage).url();
+    } catch {
+      imageUrl = `${siteUrl}/logo-futuro.png`;
+    }
+  } else {
+    imageUrl = `${siteUrl}/logo-futuro.png`;
+  }
+  return {
+    title,
+    description,
+    alternates: { canonical },
+    openGraph: {
+      title,
+      description,
+      type: "article",
+      url: canonical,
+      images: imageUrl ? [{ url: imageUrl, width: 1200, height: 630, alt: title }] : undefined,
+      publishedTime: post.publishedAt || undefined,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+    },
+  };
 }
 
 // Componentes customizados para o PortableText

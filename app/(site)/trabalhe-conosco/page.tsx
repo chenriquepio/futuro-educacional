@@ -1,6 +1,13 @@
+import type { Metadata } from "next";
 import HeroShowcase from "../components/HeroShowcase";
 import { getJobVacancies, type JobVacancy } from "../../../sanity/lib/fetch";
 import JobVacanciesClient from "./JobVacanciesClient";
+
+export const metadata: Metadata = {
+  title: "Trabalhe Conosco",
+  description:
+    "Vagas de emprego no Futuro Educacional. Venha fazer parte do nosso time em Marabá. Confira as oportunidades e candidate-se.",
+};
 
 // Dados estáticos de fallback
 const fallbackVacancies = [

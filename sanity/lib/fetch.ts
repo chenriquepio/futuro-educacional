@@ -7,6 +7,7 @@ import {
   blogPostBySlugQuery,
   latestBlogPostsQuery,
   blogPostsByCategorySlugQuery,
+  blogPostSlugsQuery,
   categoriesQuery,
   heroSlidesQuery,
 } from "./queries";
@@ -91,6 +92,11 @@ export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> 
 
 export async function getLatestBlogPosts(): Promise<BlogPost[]> {
   return client.fetch(latestBlogPostsQuery);
+}
+
+export async function getBlogSlugs(): Promise<string[]> {
+  const result = await client.fetch<{ slug: string }[]>(blogPostSlugsQuery);
+  return result?.map((r) => r.slug).filter(Boolean) ?? [];
 }
 
 export async function getBlogPostsByCategorySlug(categorySlug: string): Promise<BlogPostWithImageUrl[]> {

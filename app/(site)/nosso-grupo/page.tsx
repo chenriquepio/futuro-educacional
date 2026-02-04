@@ -1,6 +1,13 @@
+import type { Metadata } from "next";
 import Image from "next/image";
 import ContactForm from "../components/ContactForm";
 import HeroShowcase from "../components/HeroShowcase";
+
+export const metadata: Metadata = {
+  title: "Nosso Grupo",
+  description:
+    "Conheça a história do Futuro Educacional: trajetória, conquistas e compromisso com educação de qualidade em Marabá.",
+};
 
 const historyTimeline = [
   {

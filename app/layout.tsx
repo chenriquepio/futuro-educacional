@@ -10,10 +10,43 @@ const poppins = Poppins({
   fallback: ["system-ui", "arial"],
 });
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
+
 export const metadata: Metadata = {
-  title: "Futuro Educacional - O futuro dos seus sonhos é agora!",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: "Futuro Educacional - O futuro dos seus sonhos é agora!",
+    template: "%s | Futuro Educacional",
+  },
   description:
     "Matrículas 2026 abertas: do Infantil ao Ensino Médio, prepare seu filho para um futuro de conquistas.",
+  keywords: [
+    "educação",
+    "colégio",
+    "ensino infantil",
+    "ensino fundamental",
+    "ensino médio",
+    "Marabá",
+    "Futuro Educacional",
+    "escola",
+  ],
+  robots: { index: true, follow: true },
+  openGraph: {
+    type: "website",
+    locale: "pt_BR",
+    siteName: "Futuro Educacional",
+    title: "Futuro Educacional - O futuro dos seus sonhos é agora!",
+    description:
+      "Matrículas 2026 abertas: do Infantil ao Ensino Médio, prepare seu filho para um futuro de conquistas.",
+    url: siteUrl,
+    images: [{ url: "/logo-futuro.png", width: 186, height: 80, alt: "Futuro Educacional" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Futuro Educacional - O futuro dos seus sonhos é agora!",
+    description:
+      "Matrículas 2026 abertas: do Infantil ao Ensino Médio, prepare seu filho para um futuro de conquistas.",
+  },
 };
 
 export default function RootLayout({

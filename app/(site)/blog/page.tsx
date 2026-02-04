@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import HeroShowcase from "../components/HeroShowcase";
 import {
   getBlogPosts,
@@ -7,6 +8,12 @@ import {
   type Category,
 } from "../../../sanity/lib/fetch";
 import BlogPageClient from "./BlogPageClient";
+
+export const metadata: Metadata = {
+  title: "Blog",
+  description:
+    "Blog do Futuro Educacional: dicas de estudo, redação, ENEM, notícias e conteúdos para estudantes e famílias.",
+};
 
 // Dados estáticos de fallback
 const fallbackBlogPosts: BlogPost[] = [

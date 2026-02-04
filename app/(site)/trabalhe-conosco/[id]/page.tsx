@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import HeroShowcase from "../../components/HeroShowcase";
@@ -5,6 +6,8 @@ import ContactForm from "../../components/ContactForm";
 import { getJobVacancyById, type JobVacancy } from "../../../../sanity/lib/fetch";
 import { PortableText } from "@portabletext/react";
 import ApplicationForm from "./ApplicationForm";
+
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000";
 
 // Dados estáticos de fallback
 const fallbackVacancies: JobVacancy[] = [
@@ -108,6 +111,43 @@ const fallbackVacancies: JobVacancy[] = [
 
 interface PageProps {
   params: Promise<{ id: string }>;
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const { id } = await params;
+  let vacancy: JobVacancy | null = null;
+  if (process.env.NEXT_PUBLIC_SANITY_PROJECT_ID) {
+    try {
+      vacancy = await getJobVacancyById(id);
+    } catch {
+      // ignore
+    }
+  }
+  if (!vacancy) {
+    vacancy = fallbackVacancies.find((v) => v._id === id) || null;
+  }
+  if (!vacancy) {
+    return { title: "Vaga não encontrada" };
+  }
+  const title = `${vacancy.title} | Trabalhe Conosco`;
+  const description = `Vaga ${vacancy.type} em ${vacancy.location}. ${vacancy.title} - Futuro Educacional.`;
+  const canonical = `${siteUrl}/trabalhe-conosco/${vacancy._id}`;
+  return {
+    title,
+    description,
+    alternates: { canonical },
+    openGraph: {
+      title,
+      description,
+      type: "website",
+      url: canonical,
+    },
+    twitter: {
+      card: "summary",
+      title,
+      description,
+    },
+  };
 }
 
 export default async function VagaDetalhePage({ params }: PageProps) {

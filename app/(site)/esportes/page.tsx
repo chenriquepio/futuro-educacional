@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import HeroShowcase from "../components/HeroShowcase";
 import DynamicHeroContent from "../components/DynamicHeroContent";
 import StoriesSection from "../components/StoriesSection";
@@ -6,6 +7,12 @@ import OurDifferential from "../components/OurDifferential";
 import ContactForm from "../components/ContactForm";
 import { getBlogPostsByCategorySlug } from "@/sanity/lib/fetch";
 import type { BlogPostWithImageUrl } from "@/sanity/lib/fetch";
+
+export const metadata: Metadata = {
+  title: "Esportes",
+  description:
+    "Esporte no Futuro Educacional: formação integral, modalidades e competições. Valores como disciplina, trabalho em equipe e superação em Marabá.",
+};
 
 function formatPublishedAt(dateStr: string): string {
   const d = new Date(dateStr);

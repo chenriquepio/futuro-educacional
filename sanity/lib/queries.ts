@@ -77,6 +77,10 @@ export const latestBlogPostsQuery = groq`
   }
 `;
 
+export const blogPostSlugsQuery = groq`
+  *[_type == "blogPost" && defined(slug.current)] { "slug": slug.current }
+`;
+
 export const blogPostsByCategorySlugQuery = groq`
   *[_type == "blogPost" && references(*[_type == "category" && slug.current == $categorySlug][0]._id)] | order(publishedAt desc) {
     _id,
