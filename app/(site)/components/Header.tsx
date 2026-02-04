@@ -33,7 +33,7 @@ export default function Header() {
                     height={16}
                     className="object-scale-down"
                   />
-                  <span className="text-xs md:text-sm">(94) 98100-0798</span>
+                  <span className="text-xs md:text-sm">(94) 99250-0729</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <Image
@@ -44,7 +44,7 @@ export default function Header() {
                     className="object-scale-down"
                   />
                   <span className="text-xs md:text-sm hidden sm:inline">
-                    contato@grupofuturoeducacional.com.br
+                    contato@futuroeducacional.com
                   </span>
                 </div>
               </div>

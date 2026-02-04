@@ -186,7 +186,8 @@ export default function Footer() {
                   className="w-5 h-5 mt-1 shrink-0"
                 />
                 <span className="text-sm md:text-base text-left">
-                  R. Dez, N° 1 - Lote A 7 - 1040, Marabá, Marabá - PA, 68501-040
+                  Folha 26 Quadra 10 Lote 07 - Nova Maraba, Marabá-PA, CEP
+                  68509-090
                 </span>
               </li>
               <li className="flex items-center justify-center md:justify-start gap-2">
@@ -197,7 +198,7 @@ export default function Footer() {
                   height={20}
                   className="w-5 h-5 shrink-0 object-scale-down"
                 />
-                <span className="text-sm md:text-base">(94) 98100-0798</span>
+                <span className="text-sm md:text-base">(94) 99250-0729</span>
               </li>
               <li className="flex items-center justify-center md:justify-start gap-2">
                 <Image
@@ -208,7 +209,7 @@ export default function Footer() {
                   className="w-5 h-5 shrink-0 object-scale-down"
                 />
                 <span className="text-sm md:text-base break-all">
-                  contato@grupofuturoeducacional.com.br
+                  contato@futuroeducacional.com
                 </span>
               </li>
             </ul>

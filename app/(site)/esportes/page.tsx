@@ -112,7 +112,7 @@ export default async function EsportesPage() {
         title="Esportes no Futuro"
         description="No nosso colégio, o esporte vai além da competição. Trabalhamos valores como disciplina, trabalho em equipe, respeito e superação, formando cidadãos completos através da prática esportiva. Nossos alunos desenvolvem não apenas habilidades físicas, mas também competências socioemocionais essenciais para a vida."
         image="/crianca-esporte.png"
-        background="/ensino/BACKGROUND-ENSINO-INFANTIL.png"
+        background="/bg-esporte-2.png"
         highlights={[
           "Desenvolvimento físico e mental através do esporte.",
           "Valores como disciplina, trabalho em equipe e respeito.",
