@@ -77,6 +77,21 @@ export const latestBlogPostsQuery = groq`
   }
 `;
 
+export const blogPostsByCategorySlugQuery = groq`
+  *[_type == "blogPost" && references(*[_type == "category" && slug.current == $categorySlug][0]._id)] | order(publishedAt desc) {
+    _id,
+    title,
+    slug,
+    "author": author->name,
+    "authorImage": author->image,
+    mainImage,
+    "imageUrl": mainImage.asset->url,
+    "categories": categories[]->title,
+    publishedAt,
+    excerpt
+  }
+`;
+
 // ============ CATEGORIAS ============
 export const categoriesQuery = groq`
   *[_type == "category"] {
@@ -94,6 +109,23 @@ export const authorsQuery = groq`
     name,
     image,
     bio
+  }
+`;
+
+// ============ HERO CARROSSEL ============
+export const heroSlidesQuery = groq`
+  *[_type == "heroSlide"] | order(order asc) {
+    _id,
+    image,
+    "imageUrl": image.asset->url,
+    alt,
+    title,
+    titleHighlight,
+    subtitle,
+    primaryButtonText,
+    primaryButtonLink,
+    secondaryButtonText,
+    secondaryButtonLink
   }
 `;
 

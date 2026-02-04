@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 type Story = {
   title: string;
@@ -7,6 +8,7 @@ type Story = {
   creator: string;
   cargo: string;
   data: string;
+  slug?: string;
 };
 
 type StoriesSectionProps = {
@@ -105,8 +107,8 @@ export default function StoriesSection({
                         <p className="text-sm text-[#445375]">{story.creator}</p>
                       </div>
 
-                      <a
-                        href="#"
+                      <Link
+                        href={story.slug ? `/blog/${story.slug}` : "#"}
                         className="text-[#1e3a5f] hover:opacity-80 flex items-center justify-center"
                         style={{
                           width: "44px",
@@ -115,6 +117,7 @@ export default function StoriesSection({
                           background: "#EBF5FF",
                           padding: "10px",
                         }}
+                        aria-label={story.slug ? `Ler post: ${story.title}` : undefined}
                       >
                         <svg
                           className="w-5 h-5"
@@ -129,7 +132,7 @@ export default function StoriesSection({
                             d="M9 5l7 7-7 7"
                           />
                         </svg>
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </div>

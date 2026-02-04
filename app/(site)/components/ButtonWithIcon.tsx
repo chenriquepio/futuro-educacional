@@ -39,7 +39,7 @@ export default function ButtonWithIcon({
       type={type}
       onClick={onClick}
       disabled={disabled}
-      className={`bg-transparent text-[#001F63] border border-[#FDC938] rounded-full font-semibold transition-all duration-300 flex items-center gap-2 justify-center ${disabled ? "opacity-50 cursor-not-allowed" : ""} ${className}`}
+      className={`bg-transparent text-[#001F63] cursor-pointer border border-[#FDC938] rounded-full font-semibold transition-all duration-300 flex items-center gap-2 justify-center ${disabled ? "opacity-50 cursor-not-allowed" : ""} ${className}`}
       style={{ padding: "3px" }}
     >
       <span className="bg-[#FDC938] rounded-full px-6 py-2 flex items-center gap-4">

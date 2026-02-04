@@ -6,6 +6,7 @@ import { author } from "./author";
 import { category } from "./category";
 import { contactMessage } from "./contactMessage";
 import { newsletterSubscription } from "./newsletterSubscription";
+import { heroSlide } from "./heroSlide";
 
-export const schemaTypes = [siteDocument, jobVacancy, jobApplication, blogPost, author, category, contactMessage, newsletterSubscription];
+export const schemaTypes = [siteDocument, jobVacancy, jobApplication, blogPost, author, category, contactMessage, newsletterSubscription, heroSlide];
 

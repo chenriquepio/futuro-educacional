@@ -1,10 +1,56 @@
 "use client";
+
+import { useEffect, useState } from "react";
 import Image from "next/image";
+import { PortableText } from "@portabletext/react";
 import ButtonWithIcon from "./ButtonWithIcon";
 import { useRouter } from "next/navigation";
+import { client } from "@/sanity/lib/client";
+import { heroSlidesQuery } from "@/sanity/lib/queries";
+import type { HeroSlide } from "@/sanity/lib/fetch";
+
+const heroSubtitleComponents = {
+  block: {
+    normal: ({ children }: { children?: React.ReactNode }) => (
+      <span className="inline">{children}</span>
+    ),
+  },
+  marks: {
+    strong: ({ children }: { children?: React.ReactNode }) => (
+      <span className="font-black">{children}</span>
+    ),
+    underline: ({ children }: { children?: React.ReactNode }) => (
+      <span className="underline">{children}</span>
+    ),
+  },
+};
+
+const dropShadowStyle = {
+  filter: `drop-shadow(0 -2px 0 #22c55e) drop-shadow(0 2px 0 #22c55e) drop-shadow(-2px 0 0 #22c55e) drop-shadow(2px 0 0 #22c55e) drop-shadow(-1px -1px 0 #22c55e) drop-shadow(1px -1px 0 #22c55e) drop-shadow(-1px 1px 0 #22c55e) drop-shadow(1px 1px 0 #22c55e)`,
+};
 
 export default function Hero() {
   const router = useRouter();
+  const [slides, setSlides] = useState<HeroSlide[]>([]);
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    client.fetch<HeroSlide[]>(heroSlidesQuery).then(setSlides);
+  }, []);
+
+  const hasSlides = slides.length > 0;
+  const currentSlide = hasSlides ? slides[currentIndex] : null;
+  const canNavigate = hasSlides && slides.length > 1;
+
+  const goPrev = () => {
+    if (!canNavigate) return;
+    setCurrentIndex((i) => (i <= 0 ? slides.length - 1 : i - 1));
+  };
+  const goNext = () => {
+    if (!canNavigate) return;
+    setCurrentIndex((i) => (i >= slides.length - 1 ? 0 : i + 1));
+  };
+
   return (
     <section className="relative text-white overflow-hidden min-h-[600px] lg:h-screen lg:max-h-[786px]">
       {/* Background image */}
@@ -20,49 +66,90 @@ export default function Hero() {
 
       <div className="container mx-auto px-4 pt-24 md:pt-16 relative z-10 h-full flex items-center">
         <div className="flex flex-col lg:flex-row items-center w-full px-4 md:pl-24 md:pr-16 gap-8 lg:gap-0">
-          {/* Left side - Student image */}
+          {/* Left side - Carrossel de imagens */}
           <div className="flex-1 w-full lg:w-auto order-2 lg:order-1">
             <div className="relative">
               <div className="rounded-lg w-full h-[300px] md:h-[400px] lg:h-[500px] relative overflow-visible">
-                <Image
-                  src="/student.png"
-                  alt="Estudante"
-                  fill
-                  className="object-contain"
-                  priority
-                  style={{
-                    filter: `drop-shadow(0 -2px 0 #22c55e) drop-shadow(0 2px 0 #22c55e) drop-shadow(-2px 0 0 #22c55e) drop-shadow(2px 0 0 #22c55e) drop-shadow(-1px -1px 0 #22c55e) drop-shadow(1px -1px 0 #22c55e) drop-shadow(-1px 1px 0 #22c55e) drop-shadow(1px 1px 0 #22c55e)`
-                  }}
-                />
+                {currentSlide?.imageUrl ? (
+                  <Image
+                    src={currentSlide.imageUrl}
+                    alt={currentSlide.alt ?? "Estudante"}
+                    fill
+                    className="object-contain"
+                    priority={currentIndex === 0}
+                    style={dropShadowStyle}
+                  />
+                ) : (
+                  <Image
+                    src="/student.png"
+                    alt="Estudante"
+                    fill
+                    className="object-contain"
+                    priority
+                    style={dropShadowStyle}
+                  />
+                )}
               </div>
             </div>
           </div>
 
-          {/* Right side - Content */}
+          {/* Right side - Content (tudo do CMS por slide) */}
           <div className="flex-1 w-full lg:w-auto lg:ml-[-40px] order-1 lg:order-2 text-center lg:text-left">
             <h1
               className="font-black text-3xl sm:text-4xl md:text-5xl lg:text-[74px] uppercase mb-4 tracking-normal leading-[120%]"
               style={{ fontFamily: "var(--font-poppins)" }}
             >
-              O FUTURO DOS SEUS SONHOS{" "}
-              <span className="text-[#FDC938]"> É AGORA</span>!
+              {currentSlide?.title?.trim() || "O FUTURO DOS SEUS SONHOS"}{" "}
+              <span className="text-[#FDC938]">
+                {" "}
+                {currentSlide?.titleHighlight?.trim() || "É AGORA"}
+              </span>
+              !
             </h1>
             <p
               style={{ fontFamily: "var(--font-poppins)" }}
               className="mb-8 text-gray-200 text-sm md:text-base"
             >
-              <span className="font-black underline">
-                Matrículas 2026 abertas
-              </span>
-              : do Infantil ao Ensino Médio, <br className="hidden md:block" />{" "}
-              prepare seu filho para um futuro de conquistas.
+              {Array.isArray(currentSlide?.subtitle) &&
+              currentSlide.subtitle.length > 0 ? (
+                <PortableText
+                  value={currentSlide.subtitle}
+                  components={heroSubtitleComponents}
+                />
+              ) : (
+                <>
+                  <span className="font-black underline">
+                    Matrículas 2026 abertas
+                  </span>
+                  : do Infantil ao Ensino Médio,{" "}
+                  <br className="hidden md:block" /> prepare seu filho para um
+                  futuro de conquistas.
+                </>
+              )}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 items-center  lg:justify-start">
-              <ButtonWithIcon className="w-fit" onClick={() => router.push("/contato")}>
-                Conheça o seu futuro
+              <ButtonWithIcon
+                className="w-fit"
+                onClick={() =>
+                  router.push(
+                    currentSlide?.primaryButtonLink?.trim() || "/contato"
+                  )
+                }
+              >
+                {currentSlide?.primaryButtonText?.trim() ||
+                  "Conheça o seu futuro"}
               </ButtonWithIcon>
-              <button className="px-4 md:px-6 py-3 bg-[#89b0c882] text-[#000000] rounded-full border-[3px] border-white font-medium hover:opacity-90 flex items-center justify-center gap-2 text-sm md:text-base">
-                Veja nosso ensino
+              <button
+                type="button"
+                onClick={() =>
+                  router.push(
+                    currentSlide?.secondaryButtonLink?.trim() || "/ensino"
+                  )
+                }
+                className="px-4 md:px-6 py-3 cursor-pointer bg-[#89b0c882] text-[#000000] rounded-full border-[3px] border-white font-medium hover:opacity-90 flex items-center justify-center gap-2 text-sm md:text-base"
+              >
+                {currentSlide?.secondaryButtonText?.trim() ||
+                  "Veja nosso ensino"}
               </button>
             </div>
           </div>
@@ -70,7 +157,12 @@ export default function Hero() {
 
         {/* Navigation arrows - Hidden on mobile */}
         <div className="absolute left-4 top-1/2 transform -translate-y-1/2 hidden lg:block">
-          <button className="w-12 h-12 rounded-full bg-transparent flex items-center justify-center hover:opacity-80">
+          <button
+            type="button"
+            onClick={goPrev}
+            aria-label="Slide anterior"
+            className="w-12 h-12 rounded-full bg-transparent flex items-center justify-center hover:opacity-80"
+          >
             <svg
               width="75"
               height="75"
@@ -97,7 +189,12 @@ export default function Hero() {
           </button>
         </div>
         <div className="absolute right-4 top-1/2 transform -translate-y-1/2 hidden lg:block">
-          <button className="w-12 h-12 rounded-full bg-transparent flex items-center justify-center hover:opacity-80">
+          <button
+            type="button"
+            onClick={goNext}
+            aria-label="Próximo slide"
+            className="w-12 h-12 rounded-full bg-transparent flex items-center justify-center hover:opacity-80"
+          >
             <svg
               width="75"
               height="75"

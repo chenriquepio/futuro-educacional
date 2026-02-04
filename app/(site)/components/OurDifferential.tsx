@@ -3,12 +3,14 @@
 import Image from "next/image";
 import React, { useState, useEffect } from "react";
 import ButtonWithIcon from "./ButtonWithIcon";
+import { useRouter } from "next/navigation";
 
 type DifferentialCard = {
   title: string;
   imageSrc?: string;
   imageAlt?: string;
   imageLabel?: string;
+  slug?: string;
 };
 
 type OurDifferentialProps = {
@@ -54,14 +56,14 @@ export default function OurDifferential({
 
   // Responsive card sizes
   const [isMobile, setIsMobile] = useState(false);
-  
+
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
     checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
   }, []);
-
+  const router = useRouter();
   const CARD_WIDTH = isMobile ? 220 : 268;
   const CARD_HEIGHT = isMobile ? 320 : 401;
   const CARD_GAP = isMobile ? 16 : 24;
@@ -72,6 +74,8 @@ export default function OurDifferential({
     ...differentials,
     ...differentials,
   ];
+
+  console.log(duplicatedDifferentials);
   const originalLength = differentials.length;
   const middleIndex = originalLength;
 
@@ -110,7 +114,8 @@ export default function OurDifferential({
                 <span className="font-extrabold text-[#1e3a5f]">
                   educação transformadora
                 </span>
-                , nossos estudantes desenvolvem habilidades e valores para a vida.
+                , nossos estudantes desenvolvem habilidades e valores para a
+                vida.
               </>
             )}
           </h2>
@@ -168,7 +173,12 @@ export default function OurDifferential({
                       </h3>
                     </div>
                     <div className="flex justify-center">
-                      <ButtonWithIcon>Veja mais</ButtonWithIcon>
+                      <ButtonWithIcon
+                      className="cursor-pointer"
+                        onClick={() => router.push(`/blog/${item.slug}`)}
+                      >
+                        Veja mais
+                      </ButtonWithIcon>
                     </div>
                   </div>
                 </div>
@@ -177,16 +187,18 @@ export default function OurDifferential({
           </div>
 
           {/* Side gradients - smaller on mobile */}
-          <div 
+          <div
             className="pointer-events-none absolute left-0 top-0 h-full w-16 md:w-72"
             style={{
-              background: 'linear-gradient(to right, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.9) 50%, rgba(255, 255, 255, 0) 100%)'
+              background:
+                "linear-gradient(to right, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.9) 50%, rgba(255, 255, 255, 0) 100%)",
             }}
           />
-          <div 
+          <div
             className="pointer-events-none absolute right-0 top-0 h-full w-16 md:w-72"
             style={{
-              background: 'linear-gradient(to left, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.9) 50%, rgba(255, 255, 255, 0) 100%)'
+              background:
+                "linear-gradient(to left, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0.9) 50%, rgba(255, 255, 255, 0) 100%)",
             }}
           />
 

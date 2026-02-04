@@ -11,7 +11,9 @@ export default function ContactForm() {
   const [phone, setPhone] = useState("");
   const [message, setMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
+  const [submitStatus, setSubmitStatus] = useState<
+    "idle" | "success" | "error"
+  >("idle");
   const [errorMessage, setErrorMessage] = useState("");
 
   const formatPhone = (value: string) => {
@@ -65,7 +67,9 @@ export default function ContactForm() {
     } catch (error) {
       setSubmitStatus("error");
       setErrorMessage(
-        error instanceof Error ? error.message : "Erro ao enviar mensagem. Tente novamente."
+        error instanceof Error
+          ? error.message
+          : "Erro ao enviar mensagem. Tente novamente."
       );
     } finally {
       setIsSubmitting(false);
@@ -96,9 +100,6 @@ export default function ContactForm() {
               <h2 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-[#253858] mt-2">
                 Deixe-nos uma mensagem
               </h2>
-              <div className="flex justify-center md:justify-start mt-4">
-                <ButtonWithIcon>Fale conosco</ButtonWithIcon>
-              </div>
             </div>
 
             <form
