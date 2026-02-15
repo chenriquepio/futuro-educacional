@@ -3,7 +3,7 @@ import Image from "next/image";
 import ContactForm from "../components/ContactForm";
 import HeroShowcase from "../components/HeroShowcase";
 import ButtonWithIcon from "../components/ButtonWithIcon";
-import { getDocuments, type Document } from "../../../sanity/lib/fetch";
+import { getDocuments, getContactSection, type Document } from "../../../sanity/lib/fetch";
 
 export const metadata: Metadata = {
   title: "Documentos",
@@ -61,14 +61,19 @@ const fallbackDocuments = [
 
 export default async function DocumentosPage() {
   let documents: Document[] = fallbackDocuments;
+  let contactSection: Awaited<ReturnType<typeof getContactSection>> = null;
 
   // Tenta buscar do CMS se configurado
   if (process.env.NEXT_PUBLIC_SANITY_PROJECT_ID) {
     try {
-      const cmsDocuments = await getDocuments();
+      const [cmsDocuments, contactData] = await Promise.all([
+        getDocuments(),
+        getContactSection(),
+      ]);
       if (cmsDocuments && cmsDocuments.length > 0) {
         documents = cmsDocuments;
       }
+      contactSection = contactData;
     } catch (error) {
       console.error("Erro ao buscar documentos do CMS:", error);
     }
@@ -160,7 +165,10 @@ export default async function DocumentosPage() {
         </div>
       </section>
 
-      <ContactForm />
+      <ContactForm
+        backgroundUrl={contactSection?.backgroundUrl}
+        manImageUrl={contactSection?.manImageUrl}
+      />
     </main>
   );
 }

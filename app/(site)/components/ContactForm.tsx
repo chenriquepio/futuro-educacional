@@ -4,7 +4,15 @@ import React, { useState, FormEvent } from "react";
 import Image from "next/image";
 import ButtonWithIcon from "./ButtonWithIcon";
 
-export default function ContactForm() {
+type ContactFormProps = {
+  backgroundUrl?: string | null;
+  manImageUrl?: string | null;
+};
+
+export default function ContactForm({
+  backgroundUrl,
+  manImageUrl,
+}: ContactFormProps) {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -69,7 +77,7 @@ export default function ContactForm() {
       setErrorMessage(
         error instanceof Error
           ? error.message
-          : "Erro ao enviar mensagem. Tente novamente."
+          : "Erro ao enviar mensagem. Tente novamente.",
       );
     } finally {
       setIsSubmitting(false);
@@ -78,16 +86,17 @@ export default function ContactForm() {
 
   return (
     <section className="relative overflow-hidden">
-      {/* Background image */}
-      <div className="absolute inset-0">
-        <Image
-          src="/BACKGROUND-contato.png"
-          alt="Background"
-          fill
-          className="object-cover"
-          priority
-        />
-      </div>
+      {backgroundUrl && (
+        <div className="absolute inset-0">
+          <Image
+            src={backgroundUrl}
+            alt="Background"
+            fill
+            className="object-cover"
+            priority
+          />
+        </div>
+      )}
 
       <div className="container mx-auto px-4 relative z-10">
         <div className="flex flex-col md:flex-row gap-8 md:gap-12">
@@ -203,17 +212,18 @@ export default function ContactForm() {
             </form>
           </div>
 
-          {/* Right side - Image */}
-          <div className="flex-1 hidden md:block relative z-20 self-end">
-            <div className="relative w-full h-[500px] lg:h-[700px]">
-              <Image
-                src="/homem-contato.png"
-                alt="Colaborador"
-                fill
-                className="object-cover object-bottom"
-              />
+          {manImageUrl && (
+            <div className="flex-1 hidden md:block relative z-20 self-end">
+              <div className="relative w-full h-[500px] lg:h-[700px]">
+                <Image
+                  src={manImageUrl}
+                  alt="Colaborador"
+                  fill
+                  className="object-cover object-bottom"
+                />
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </section>

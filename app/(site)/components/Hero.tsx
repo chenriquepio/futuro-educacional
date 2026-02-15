@@ -22,6 +22,15 @@ const heroSubtitleComponents = {
     underline: ({ children }: { children?: React.ReactNode }) => (
       <span className="underline">{children}</span>
     ),
+    textColor: ({
+      value,
+      children,
+    }: {
+      value?: { color?: string };
+      children?: React.ReactNode;
+    }) => (
+      <span style={{ color: value?.color ?? "inherit" }}>{children}</span>
+    ),
   },
 };
 
@@ -96,15 +105,21 @@ export default function Hero() {
           {/* Right side - Content (tudo do CMS por slide) */}
           <div className="flex-1 w-full lg:w-auto lg:ml-[-40px] order-1 lg:order-2 text-center lg:text-left">
             <h1
-              className="font-black text-3xl sm:text-4xl md:text-5xl lg:text-[74px] uppercase mb-4 tracking-normal leading-[120%]"
+              className="font-black text-3xl sm:text-4xl md:text-5xl lg:text-[74px] uppercase mb-4 tracking-normal leading-[120%] text-white"
               style={{ fontFamily: "var(--font-poppins)" }}
             >
-              {currentSlide?.title?.trim() || "O FUTURO DOS SEUS SONHOS"}{" "}
-              <span className="text-[#FDC938]">
-                {" "}
-                {currentSlide?.titleHighlight?.trim() || "É AGORA"}
-              </span>
-              !
+              {Array.isArray(currentSlide?.title) &&
+              currentSlide.title.length > 0 ? (
+                <PortableText
+                  value={currentSlide.title}
+                  components={heroSubtitleComponents}
+                />
+              ) : (
+                <>
+                  O FUTURO DOS SEUS SONHOS{" "}
+                  <span className="text-[#FDC938]">É AGORA</span>!
+                </>
+              )}
             </h1>
             <p
               style={{ fontFamily: "var(--font-poppins)" }}

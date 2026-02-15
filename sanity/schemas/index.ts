@@ -7,6 +7,12 @@ import { category } from "./category";
 import { contactMessage } from "./contactMessage";
 import { newsletterSubscription } from "./newsletterSubscription";
 import { heroSlide } from "./heroSlide";
+import { educationalStagesSection } from "./educationalStagesSection";
+import { contactSection } from "./contactSection";
+import { sportsSection } from "./sportsSection";
+import { testimonialsSection } from "./testimonialsSection";
+import { nossoGrupoPage } from "./nossoGrupoPage";
+import { ensinoPage } from "./ensinoPage";
 
-export const schemaTypes = [siteDocument, jobVacancy, jobApplication, blogPost, author, category, contactMessage, newsletterSubscription, heroSlide];
+export const schemaTypes = [siteDocument, jobVacancy, jobApplication, blogPost, author, category, contactMessage, newsletterSubscription, heroSlide, educationalStagesSection, contactSection, sportsSection, testimonialsSection, nossoGrupoPage, ensinoPage];
 

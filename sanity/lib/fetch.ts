@@ -10,6 +10,12 @@ import {
   blogPostSlugsQuery,
   categoriesQuery,
   heroSlidesQuery,
+  educationalStagesSectionQuery,
+  contactSectionQuery,
+  sportsSectionQuery,
+  testimonialsSectionQuery,
+  nossoGrupoPageQuery,
+  ensinoPageQuery,
 } from "./queries";
 import type { PortableTextBlock } from "@portabletext/types";
 
@@ -60,13 +66,103 @@ export interface HeroSlide {
   /** URL direta do asset (sem crop) para exibir a imagem inteira. */
   imageUrl?: string | null;
   alt?: string;
-  title?: string;
-  titleHighlight?: string;
+  /** Título em rich text (cor padrão branco; use marca "Cor do texto" para amarelo/destaque). */
+  title?: PortableTextBlock[];
   subtitle?: PortableTextBlock[];
   primaryButtonText?: string;
   primaryButtonLink?: string;
   secondaryButtonText?: string;
   secondaryButtonLink?: string;
+}
+
+export interface EducationalStagesSection {
+  _id: string;
+  eyebrow?: string;
+  title?: PortableTextBlock[];
+  backgroundUrl?: string | null;
+  stages?: { name: string; imageUrl?: string | null }[];
+}
+
+export interface ContactSection {
+  _id: string;
+  backgroundUrl?: string | null;
+  manImageUrl?: string | null;
+}
+
+export interface SportsSection {
+  _id: string;
+  backgroundUrl?: string | null;
+  athletesImageUrl?: string | null;
+  eyebrow?: string;
+  title?: PortableTextBlock[];
+  description?: PortableTextBlock[];
+  buttonText?: string;
+  buttonLink?: string;
+}
+
+export interface TestimonialsSection {
+  _id: string;
+  backgroundUrl?: string | null;
+  womanImageUrl?: string | null;
+  eyebrow?: string;
+  title?: PortableTextBlock[];
+  testimonials?: {
+    text: string;
+    author: string;
+    role?: string;
+    avatar: string;
+  }[];
+}
+
+export interface NossoGrupoPage {
+  _id: string;
+  hero?: {
+    backgroundImageUrl?: string | null;
+    eyebrow?: string;
+    title?: string;
+  };
+  historySection?: {
+    eyebrow?: string;
+    title?: string;
+    content?: PortableTextBlock[];
+    timeline?: PortableTextBlock[];
+    sideImageUrl?: string | null;
+  };
+  valuesSection?: {
+    backgroundImageUrl?: string | null;
+    contentImageUrl?: string | null;
+  };
+}
+
+export interface EnsinoPageStage {
+  name: string;
+  selectorImageUrl?: string | null;
+  title?: string;
+  subtitle?: string;
+  imageUrl?: string | null;
+  backgroundUrl?: string | null;
+  description?: string;
+  highlights?: string[];
+  section1?: {
+    title: string;
+    description: string;
+    imageUrl?: string | null;
+  };
+  section2?: {
+    title: string;
+    description: string;
+    imageUrl?: string | null;
+  };
+}
+
+export interface EnsinoPage {
+  _id: string;
+  hero?: {
+    backgroundImageUrl?: string | null;
+    eyebrow?: string;
+    title?: string;
+  };
+  stages?: EnsinoPageStage[];
 }
 
 // Fetch functions
@@ -109,6 +205,30 @@ export async function getCategories(): Promise<Category[]> {
 
 export async function getHeroSlides(): Promise<HeroSlide[]> {
   return client.fetch(heroSlidesQuery);
+}
+
+export async function getEducationalStagesSection(): Promise<EducationalStagesSection | null> {
+  return client.fetch(educationalStagesSectionQuery);
+}
+
+export async function getContactSection(): Promise<ContactSection | null> {
+  return client.fetch(contactSectionQuery);
+}
+
+export async function getSportsSection(): Promise<SportsSection | null> {
+  return client.fetch(sportsSectionQuery);
+}
+
+export async function getTestimonialsSection(): Promise<TestimonialsSection | null> {
+  return client.fetch(testimonialsSectionQuery);
+}
+
+export async function getNossoGrupoPage(): Promise<NossoGrupoPage | null> {
+  return client.fetch(nossoGrupoPageQuery);
+}
+
+export async function getEnsinoPage(): Promise<EnsinoPage | null> {
+  return client.fetch(ensinoPageQuery);
 }
 
 

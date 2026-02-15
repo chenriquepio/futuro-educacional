@@ -1,4 +1,4 @@
-import { groq } from "next-sanity";
+import groq from "groq";
 
 // ============ DOCUMENTOS ============
 export const documentsQuery = groq`
@@ -124,7 +124,6 @@ export const heroSlidesQuery = groq`
     "imageUrl": image.asset->url,
     alt,
     title,
-    titleHighlight,
     subtitle,
     primaryButtonText,
     primaryButtonLink,
@@ -133,3 +132,125 @@ export const heroSlidesQuery = groq`
   }
 `;
 
+// ============ ETAPAS DE ENSINO (HOME) ============
+export const educationalStagesSectionQuery = groq`
+  *[_type == "educationalStagesSection"][0] {
+    _id,
+    eyebrow,
+    title,
+    background,
+    "backgroundUrl": background.asset->url,
+    stages[] {
+      name,
+      image,
+      "imageUrl": image.asset->url
+    }
+  }
+`;
+
+// ============ SEÇÃO DE CONTATO ============
+export const contactSectionQuery = groq`
+  *[_type == "contactSection"][0] {
+    _id,
+    background,
+    "backgroundUrl": background.asset->url,
+    manImage,
+    "manImageUrl": manImage.asset->url
+  }
+`;
+
+// ============ SEÇÃO ESPORTES (HOME) ============
+export const sportsSectionQuery = groq`
+  *[_type == "sportsSection"][0] {
+    _id,
+    background,
+    "backgroundUrl": background.asset->url,
+    athletesImage,
+    "athletesImageUrl": athletesImage.asset->url,
+    eyebrow,
+    title,
+    description,
+    buttonText,
+    buttonLink
+  }
+`;
+
+// ============ SEÇÃO TESTEMUNHOS ============
+export const testimonialsSectionQuery = groq`
+  *[_type == "testimonialsSection"][0] {
+    _id,
+    background,
+    "backgroundUrl": background.asset->url,
+    womanImage,
+    "womanImageUrl": womanImage.asset->url,
+    eyebrow,
+    title,
+    testimonials[] {
+      text,
+      author,
+      role,
+      avatar
+    }
+  }
+`;// ============ PÁGINA NOSSO GRUPO ============
+export const nossoGrupoPageQuery = groq`
+  *[_type == "nossoGrupoPage"][0] {
+    _id,
+    hero {
+      backgroundImage,
+      "backgroundImageUrl": backgroundImage.asset->url,
+      eyebrow,
+      title
+    },
+    historySection {
+      eyebrow,
+      title,
+      content,
+      timeline,
+      sideImage,
+      "sideImageUrl": sideImage.asset->url
+    },
+    valuesSection {
+      backgroundImage,
+      "backgroundImageUrl": backgroundImage.asset->url,
+      contentImage,
+      "contentImageUrl": contentImage.asset->url
+    }
+  }
+`;// ============ PÁGINA ENSINO ============
+export const ensinoPageQuery = groq`
+  *[_type == "ensinoPage"][0] {
+    _id,
+    hero {
+      backgroundImage,
+      "backgroundImageUrl": backgroundImage.asset->url,
+      eyebrow,
+      title
+    },
+    stages[] {
+      name,
+      selectorImage,
+      "selectorImageUrl": selectorImage.asset->url,
+      title,
+      subtitle,
+      image,
+      "imageUrl": image.asset->url,
+      background,
+      "backgroundUrl": background.asset->url,
+      description,
+      highlights,
+      section1 {
+        title,
+        description,
+        image,
+        "imageUrl": image.asset->url
+      },
+      section2 {
+        title,
+        description,
+        image,
+        "imageUrl": image.asset->url
+      }
+    }
+  }
+`;

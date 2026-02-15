@@ -5,7 +5,7 @@ import StoriesSection from "../components/StoriesSection";
 import ContentSection from "../components/ContentSection";
 import OurDifferential from "../components/OurDifferential";
 import ContactForm from "../components/ContactForm";
-import { getBlogPostsByCategorySlug } from "@/sanity/lib/fetch";
+import { getBlogPostsByCategorySlug, getContactSection } from "@/sanity/lib/fetch";
 import type { BlogPostWithImageUrl } from "@/sanity/lib/fetch";
 
 export const metadata: Metadata = {
@@ -90,9 +90,10 @@ function mapPostToDifferential(post: BlogPostWithImageUrl) {
 }
 
 export default async function EsportesPage() {
-  const [esportesPosts, modalidadesPosts] = await Promise.all([
+  const [esportesPosts, modalidadesPosts, contactSection] = await Promise.all([
     getBlogPostsByCategorySlug("esportes"),
     getBlogPostsByCategorySlug("modalidades"),
+    getContactSection(),
   ]);
 
   const stories = esportesPosts.length > 0 ? esportesPosts.map(mapPostToStory) : defaultStories;
@@ -148,7 +149,10 @@ export default async function EsportesPage() {
         }
       />
 
-      <ContactForm />
+      <ContactForm
+        backgroundUrl={contactSection?.backgroundUrl}
+        manImageUrl={contactSection?.manImageUrl}
+      />
     </main>
   );
 }

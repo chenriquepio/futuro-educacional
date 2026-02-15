@@ -6,7 +6,7 @@ import Sports from "./components/Sports";
 import StoriesSection from "./components/StoriesSection";
 import Testimonials from "./components/Testimonials";
 import ScrollToHashOnLoad from "./components/ScrollToHashOnLoad";
-import { getBlogPostsByCategorySlug } from "@/sanity/lib/fetch";
+import { getBlogPostsByCategorySlug, getEducationalStagesSection, getContactSection, getSportsSection, getTestimonialsSection } from "@/sanity/lib/fetch";
 import type { BlogPostWithImageUrl } from "@/sanity/lib/fetch";
 
 function formatPublishedAt(dateStr: string): string {
@@ -92,9 +92,13 @@ const defaultDifferentials = [
 ];
 
 export default async function Home() {
-  const [diferenciaisPosts, exAlunosPosts] = await Promise.all([
+  const [diferenciaisPosts, exAlunosPosts, educationalStagesData, contactSectionData, sportsSectionData, testimonialsSectionData] = await Promise.all([
     getBlogPostsByCategorySlug("diferenciais"),
     getBlogPostsByCategorySlug("ex-alunos"),
+    getEducationalStagesSection(),
+    getContactSection(),
+    getSportsSection(),
+    getTestimonialsSection(),
   ]);
 
   const differentials =
@@ -113,16 +117,19 @@ export default async function Home() {
         <Hero />
       </section>
       <section id="ensino">
-        <EducationalStages />
+        <EducationalStages section={educationalStagesData} />
       </section>
       <section id="contato">
-        <ContactForm />
+        <ContactForm
+          backgroundUrl={contactSectionData?.backgroundUrl}
+          manImageUrl={contactSectionData?.manImageUrl}
+        />
       </section>
       <section id="diferenciais">
         <OurDifferential differentials={differentials} />
       </section>
       <section id="esportes">
-        <Sports />
+        <Sports section={sportsSectionData} />
       </section>
       <section id="alunos">
         <StoriesSection
@@ -134,7 +141,7 @@ export default async function Home() {
         />
       </section>
       <section id="depoimentos">
-        <Testimonials />
+        <Testimonials section={testimonialsSectionData} />
       </section>
     </>
   );

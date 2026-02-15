@@ -15,6 +15,15 @@ export const heroSlide = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: "background",
+      title: "Background",
+      type: "image",
+      options: {
+        hotspot: true,
+      },
+      description: "Imagem de fundo do slide (opcional). Se não for definida, usa a imagem principal.",
+    }),
+    defineField({
       name: "alt",
       title: "Texto alternativo",
       type: "string",
@@ -30,14 +39,45 @@ export const heroSlide = defineType({
     defineField({
       name: "title",
       title: "Título",
-      type: "string",
-      description: "Ex: O FUTURO DOS SEUS SONHOS",
-    }),
-    defineField({
-      name: "titleHighlight",
-      title: "Destaque do título",
-      type: "string",
-      description: "Parte em amarelo. Ex: É AGORA",
+      type: "array",
+      of: [
+        {
+          type: "block",
+          styles: [{ title: "Parágrafo", value: "normal" }],
+          marks: {
+            decorators: [
+              { title: "Negrito", value: "strong" },
+              { title: "Sublinhado", value: "underline" },
+            ],
+            annotations: [
+              {
+                name: "textColor",
+                type: "object",
+                title: "Cor do texto",
+                fields: [
+                  {
+                    name: "color",
+                    type: "string",
+                    title: "Cor",
+                    options: {
+                      list: [
+                        { title: "Amarelo (destaque)", value: "#FDC938" },
+                        { title: "Branco", value: "#FFFFFF" },
+                        { title: "Azul", value: "#1C437F" },
+                        { title: "Azul escuro", value: "#1e3a5f" },
+                        { title: "Preto", value: "#000000" },
+                      ],
+                    },
+                    validation: (Rule) => Rule.required(),
+                  },
+                ],
+              },
+            ],
+          },
+        },
+      ],
+      description:
+        "Título do slide. O texto fica branco por padrão. Selecione uma palavra ou trecho e aplique a cor Amarelo para destacar.",
     }),
     defineField({
       name: "subtitle",
@@ -47,16 +87,40 @@ export const heroSlide = defineType({
         {
           type: "block",
           styles: [{ title: "Parágrafo", value: "normal" }],
-          options: {
+          marks: {
             decorators: [
               { title: "Negrito", value: "strong" },
               { title: "Sublinhado", value: "underline" },
+            ],
+            annotations: [
+              {
+                name: "textColor",
+                type: "object",
+                title: "Cor do texto",
+                fields: [
+                  {
+                    name: "color",
+                    type: "string",
+                    title: "Cor",
+                    options: {
+                      list: [
+                        { title: "Amarelo", value: "#FDC938" },
+                        { title: "Azul", value: "#1C437F" },
+                        { title: "Azul escuro", value: "#1e3a5f" },
+                        { title: "Branco", value: "#FFFFFF" },
+                        { title: "Preto", value: "#000000" },
+                      ],
+                    },
+                    validation: (Rule) => Rule.required(),
+                  },
+                ],
+              },
             ],
           },
         },
       ],
       description:
-        "Texto abaixo do título. Use a barra de ferramentas para negrito e sublinhado.",
+        "Texto abaixo do título. Selecione um trecho e use a opção de cor para destacar.",
     }),
     defineField({
       name: "primaryButtonText",
@@ -97,8 +161,15 @@ export const heroSlide = defineType({
       alt: "alt",
     },
     prepare({ media, title, alt }) {
+      const blocks = title as { children?: { text?: string }[] }[] | undefined;
+      const firstBlock = Array.isArray(blocks) ? blocks[0] : undefined;
+      const text =
+        firstBlock?.children
+          ?.map((c) => c?.text ?? "")
+          .join("")
+          .trim() || "";
       return {
-        title: title || alt || "Slide sem título",
+        title: text || (alt as string) || "Slide sem título",
         media,
       };
     },

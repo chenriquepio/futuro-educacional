@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import HeroShowcase from "../../components/HeroShowcase";
 import ContactForm from "../../components/ContactForm";
-import { getJobVacancyById, type JobVacancy } from "../../../../sanity/lib/fetch";
+import { getJobVacancyById, getContactSection, type JobVacancy } from "../../../../sanity/lib/fetch";
 import { PortableText } from "@portabletext/react";
 import ApplicationForm from "./ApplicationForm";
 
@@ -154,11 +154,17 @@ export default async function VagaDetalhePage({ params }: PageProps) {
   const { id } = await params;
   
   let vacancy: JobVacancy | null = null;
+  let contactSection: Awaited<ReturnType<typeof getContactSection>> = null;
 
   // Tenta buscar do CMS se configurado
   if (process.env.NEXT_PUBLIC_SANITY_PROJECT_ID) {
     try {
-      vacancy = await getJobVacancyById(id);
+      const [vacancyData, contactData] = await Promise.all([
+        getJobVacancyById(id),
+        getContactSection(),
+      ]);
+      vacancy = vacancyData;
+      contactSection = contactData;
     } catch (error) {
       console.error("Erro ao buscar vaga do CMS:", error);
     }
@@ -396,7 +402,10 @@ export default async function VagaDetalhePage({ params }: PageProps) {
         </div>
       </section>
 
-      <ContactForm />
+      <ContactForm
+        backgroundUrl={contactSection?.backgroundUrl}
+        manImageUrl={contactSection?.manImageUrl}
+      />
     </main>
   );
 }
