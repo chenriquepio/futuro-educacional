@@ -49,19 +49,13 @@ export default function EnsinoPageClient({
 }: EnsinoPageClientProps) {
   const [selectedStage, setSelectedStage] = useState(0);
   const currentContent = stageContent[selectedStage];
-
-  const heroConfig = hero ?? {
-    backgroundImage: "/escola.jpg",
-    eyebrow: "Nosso Ensino",
-    title: "Do infantil até a fase adulta",
-  };
-
+console.log(hero);
   return (
     <main className="bg-white">
       <HeroShowcase
-        backgroundImage={heroConfig.backgroundImage}
-        eyebrow={heroConfig.eyebrow}
-        title={heroConfig.title}
+        backgroundImage={hero?.backgroundImage ?? ""}
+        eyebrow={hero?.eyebrow ?? ""}
+        title={hero?.title ?? ""}
       />
 
       {/* Educational Stages Section */}

@@ -228,7 +228,9 @@ export async function getNossoGrupoPage(): Promise<NossoGrupoPage | null> {
 }
 
 export async function getEnsinoPage(): Promise<EnsinoPage | null> {
-  return client.fetch(ensinoPageQuery);
+  const result = await client.fetch(ensinoPageQuery);
+  console.log(result, 'result ensino page');
+  return result;
 }
 
 

@@ -1,9 +1,9 @@
 import Image from "next/image";
 
 type HeroShowcaseProps = {
-  backgroundImage: string;
-  eyebrow: string;
-  title: string;
+  backgroundImage?: string;
+  eyebrow?: string;
+  title?: string;
   className?: string;
   imageClassName?: string;
   bottomBlur?: boolean;
@@ -12,8 +12,8 @@ type HeroShowcaseProps = {
 
 export default function HeroShowcase({
   backgroundImage,
-  eyebrow,
-  title,
+  eyebrow = "",
+  title = "",
   className,
   imageClassName,
   bottomBlur = false,
@@ -23,13 +23,17 @@ export default function HeroShowcase({
       className={`relative overflow-hidden text-white py-24 min-h-[464px] ${className}`}
     >
       <div className="absolute inset-0">
-        <Image
-          src={backgroundImage}
-          alt={title}
-          fill
-          className={imageClassName || "object-cover"}
-          priority
-        />
+        {backgroundImage ? (
+          <Image
+            src={backgroundImage}
+            alt={title}
+            fill
+            className={imageClassName || "object-cover"}
+            priority
+          />
+        ) : (
+          <div className="absolute inset-0 bg-[#1C437F]" />
+        )}
       </div>
       <div className="absolute inset-0 bg-[#1C437F]/80" />
       {bottomBlur && (
