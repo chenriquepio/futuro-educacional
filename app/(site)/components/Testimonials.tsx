@@ -5,44 +5,48 @@ import React, { useState, useEffect } from "react";
 import { PortableText } from "@portabletext/react";
 import type { TestimonialsSection } from "@/sanity/lib/fetch";
 
-const defaultTestimonials = [
-  { text: "Melhor escola de Marabá! Topíssima!", author: "Delzyane Ferreira", role: "Mãe de aluno", avatar: "DF" },
-  { text: "Orgulho de ter meus filhos com vocês!!! Parceria 2026 efetuada com sucesso!", author: "Regiane Chamon", role: "Mãe de aluna", avatar: "RC" },
-  { text: "Excelente instituição de ensino!", author: "Nome Exemplo", role: "Pai de aluno", avatar: "NE" },
-];
-
-const DEFAULT_BACKGROUND = "/BACKGROUND-testemunho.png";
-const DEFAULT_WOMAN_IMAGE = "/colaboradora.png";
-
 const richTitleComponents = {
-  block: { normal: ({ children }: { children?: React.ReactNode }) => <span className="inline">{children}</span> },
-  marks: {
-    strong: ({ children }: { children?: React.ReactNode }) => <strong>{children}</strong>,
-    underline: ({ children }: { children?: React.ReactNode }) => <span className="underline">{children}</span>,
-    textColor: ({ value, children }: { value?: { color?: string }; children?: React.ReactNode }) => (
-      <span style={{ color: value?.color ?? "inherit" }}>{children}</span>
+  block: {
+    normal: ({ children }: { children?: React.ReactNode }) => (
+      <span className="inline">{children}</span>
     ),
+  },
+  marks: {
+    strong: ({ children }: { children?: React.ReactNode }) => (
+      <strong>{children}</strong>
+    ),
+    underline: ({ children }: { children?: React.ReactNode }) => (
+      <span className="underline">{children}</span>
+    ),
+    textColor: ({
+      value,
+      children,
+    }: {
+      value?: { color?: string };
+      children?: React.ReactNode;
+    }) => <span style={{ color: value?.color ?? "inherit" }}>{children}</span>,
   },
 };
 
 type Props = { section?: TestimonialsSection | null };
 
 export default function Testimonials({ section }: Props) {
-  const backgroundUrl = section?.backgroundUrl ?? DEFAULT_BACKGROUND;
-  const womanImageUrl = section?.womanImageUrl ?? DEFAULT_WOMAN_IMAGE;
+  const backgroundUrl = section?.backgroundUrl ?? "";
+  const womanImageUrl = section?.womanImageUrl ?? "";
   const eyebrow = section?.eyebrow ?? "TESTEMUNHOS";
   const title = section?.title;
-  const testimonials =
-    section?.testimonials?.length ? section.testimonials : defaultTestimonials;
+  const testimonials = section?.testimonials?.length
+    ? section.testimonials
+    : [];
 
   // Responsive card sizes
   const [isMobile, setIsMobile] = useState(false);
-  
+
   useEffect(() => {
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
     checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
   const CARD_WIDTH = isMobile ? 280 : 320;
@@ -97,7 +101,10 @@ export default function Testimonials({ section }: Props) {
               </span>
               <h2 className="text-2xl md:text-4xl font-bold text-[#17012C] mt-2">
                 {Array.isArray(title) && title.length > 0 ? (
-                  <PortableText value={title} components={richTitleComponents} />
+                  <PortableText
+                    value={title}
+                    components={richTitleComponents}
+                  />
                 ) : (
                   "O que estão falando sobre nós"
                 )}
@@ -107,14 +114,14 @@ export default function Testimonials({ section }: Props) {
             <div className="relative max-w-full pl-0 md:pl-[40px]">
               <div
                 className="overflow-hidden mx-auto"
-                style={{ 
+                style={{
                   maxWidth: `${SLIDER_MAX_WIDTH}px`,
-                  WebkitMaskImage: isMobile 
-                    ? 'linear-gradient(to right, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.95) 75%, rgba(0, 0, 0, 0.6) 85%, rgba(0, 0, 0, 0.3) 92%, rgba(0, 0, 0, 0) 100%)'
-                    : 'linear-gradient(to right, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.95) 60%, rgba(0, 0, 0, 0.7) 75%, rgba(0, 0, 0, 0.4) 85%, rgba(0, 0, 0, 0.15) 92%, rgba(0, 0, 0, 0) 100%)',
-                  maskImage: isMobile 
-                    ? 'linear-gradient(to right, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.95) 75%, rgba(0, 0, 0, 0.6) 85%, rgba(0, 0, 0, 0.3) 92%, rgba(0, 0, 0, 0) 100%)'
-                    : 'linear-gradient(to right, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.95) 60%, rgba(0, 0, 0, 0.7) 75%, rgba(0, 0, 0, 0.4) 85%, rgba(0, 0, 0, 0.15) 92%, rgba(0, 0, 0, 0) 100%)',
+                  WebkitMaskImage: isMobile
+                    ? "linear-gradient(to right, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.95) 75%, rgba(0, 0, 0, 0.6) 85%, rgba(0, 0, 0, 0.3) 92%, rgba(0, 0, 0, 0) 100%)"
+                    : "linear-gradient(to right, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.95) 60%, rgba(0, 0, 0, 0.7) 75%, rgba(0, 0, 0, 0.4) 85%, rgba(0, 0, 0, 0.15) 92%, rgba(0, 0, 0, 0) 100%)",
+                  maskImage: isMobile
+                    ? "linear-gradient(to right, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.95) 75%, rgba(0, 0, 0, 0.6) 85%, rgba(0, 0, 0, 0.3) 92%, rgba(0, 0, 0, 0) 100%)"
+                    : "linear-gradient(to right, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.95) 60%, rgba(0, 0, 0, 0.7) 75%, rgba(0, 0, 0, 0.4) 85%, rgba(0, 0, 0, 0.15) 92%, rgba(0, 0, 0, 0) 100%)",
                 }}
               >
                 <div

@@ -5,7 +5,7 @@ import Image from "next/image";
 import { PortableText } from "@portabletext/react";
 import ButtonWithIcon from "./ButtonWithIcon";
 import { useRouter } from "next/navigation";
-import { client } from "@/sanity/lib/client";
+import { client, urlFor } from "@/sanity/lib/client";
 import { heroSlidesQuery } from "@/sanity/lib/queries";
 import type { HeroSlide } from "@/sanity/lib/fetch";
 
@@ -28,24 +28,36 @@ const heroSubtitleComponents = {
     }: {
       value?: { color?: string };
       children?: React.ReactNode;
-    }) => (
-      <span style={{ color: value?.color ?? "inherit" }}>{children}</span>
-    ),
+    }) => <span style={{ color: value?.color ?? "inherit" }}>{children}</span>,
   },
 };
 
 const dropShadowStyle = {
-  filter: `drop-shadow(0 -2px 0 #22c55e) drop-shadow(0 2px 0 #22c55e) drop-shadow(-2px 0 0 #22c55e) drop-shadow(2px 0 0 #22c55e) drop-shadow(-1px -1px 0 #22c55e) drop-shadow(1px -1px 0 #22c55e) drop-shadow(-1px 1px 0 #22c55e) drop-shadow(1px 1px 0 #22c55e)`,
+  filter: ``,
 };
 
-export default function Hero() {
+/** Retorna URL do background sem transparência (format jpg) quando vem do Sanity. */
+function getBackgroundUrl(slide: HeroSlide | null): string {
+  if (!slide) return "/BACKGROUND.png";
+  if (slide.background?.asset?._ref) {
+    return urlFor(slide.background).format("jpg").url();
+  }
+  return slide.backgroundUrl ?? "";
+}
+
+interface HeroProps {
+  initialSlides?: HeroSlide[];
+}
+
+export default function Hero({ initialSlides = [] }: HeroProps) {
   const router = useRouter();
-  const [slides, setSlides] = useState<HeroSlide[]>([]);
+  const [slides, setSlides] = useState<HeroSlide[]>(initialSlides);
   const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
+    if (initialSlides.length > 0) return;
     client.fetch<HeroSlide[]>(heroSlidesQuery).then(setSlides);
-  }, []);
+  }, [initialSlides.length]);
 
   const hasSlides = slides.length > 0;
   const currentSlide = hasSlides ? slides[currentIndex] : null;
@@ -62,16 +74,13 @@ export default function Hero() {
 
   return (
     <section className="relative text-white overflow-hidden min-h-[600px] lg:h-screen lg:max-h-[786px]">
-      {/* Background image */}
+      {/* Background image - do Sanity (por slide) ou fallback. Format jpg remove transparência do PNG. */}
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: "url(/BACKGROUND.png)",
+          backgroundImage: `url(${getBackgroundUrl(currentSlide)})`,
         }}
-      >
-        {/* Overlay para garantir legibilidade do texto */}
-        <div className="absolute inset-0 bg-[#1e3a5f]/40"></div>
-      </div>
+      />
 
       <div className="container mx-auto px-4 pt-24 md:pt-16 relative z-10 h-full flex items-center">
         <div className="flex flex-col lg:flex-row items-center w-full px-4 md:pl-24 md:pr-16 gap-8 lg:gap-0">
@@ -79,25 +88,14 @@ export default function Hero() {
           <div className="flex-1 w-full lg:w-auto order-2 lg:order-1">
             <div className="relative">
               <div className="rounded-lg w-full h-[300px] md:h-[400px] lg:h-[500px] relative overflow-visible">
-                {currentSlide?.imageUrl ? (
-                  <Image
-                    src={currentSlide.imageUrl}
-                    alt={currentSlide.alt ?? "Estudante"}
-                    fill
-                    className="object-contain"
-                    priority={currentIndex === 0}
-                    style={dropShadowStyle}
-                  />
-                ) : (
-                  <Image
-                    src="/student.png"
-                    alt="Estudante"
-                    fill
-                    className="object-contain"
-                    priority
-                    style={dropShadowStyle}
-                  />
-                )}
+                <Image
+                  src={currentSlide?.imageUrl ?? ""}
+                  alt={currentSlide?.alt ?? "Estudante"}
+                  fill
+                  className="object-contain"
+                  priority={currentIndex === 0}
+                  style={dropShadowStyle}
+                />
               </div>
             </div>
           </div>
@@ -147,7 +145,7 @@ export default function Hero() {
                 className="w-fit"
                 onClick={() =>
                   router.push(
-                    currentSlide?.primaryButtonLink?.trim() || "/contato"
+                    currentSlide?.primaryButtonLink?.trim() || "/contato",
                   )
                 }
               >
@@ -158,7 +156,7 @@ export default function Hero() {
                 type="button"
                 onClick={() =>
                   router.push(
-                    currentSlide?.secondaryButtonLink?.trim() || "/ensino"
+                    currentSlide?.secondaryButtonLink?.trim() || "/ensino",
                   )
                 }
                 className="px-4 md:px-6 py-3 cursor-pointer bg-[#89b0c882] text-[#000000] rounded-full border-[3px] border-white font-medium hover:opacity-90 flex items-center justify-center gap-2 text-sm md:text-base"

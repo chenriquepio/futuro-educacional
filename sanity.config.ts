@@ -35,14 +35,59 @@ export default defineConfig({
                 S.list()
                   .title("Páginas do site")
                   .items([
-                    S.documentTypeListItem("nossoGrupoPage").title("Nosso Grupo"),
-                    S.documentTypeListItem("ensinoPage").title("Página Ensino"),
-                    S.documentTypeListItem("heroSlide").title("Home – Hero (carrossel)"),
-                    S.documentTypeListItem("educationalStagesSection").title("Home – Etapas de Ensino"),
-                    S.documentTypeListItem("contactSection").title("Home – Contato"),
-                    S.documentTypeListItem("sportsSection").title("Home – Esportes"),
-                    S.documentTypeListItem("testimonialsSection").title("Home – Testemunhos"),
-                  ])
+                    S.listItem()
+                      .title("Home")
+                      .child(
+                        S.list()
+                          .title("Home")
+                          .items([
+                            S.documentTypeListItem("heroSlide").title("Hero"),
+                            S.listItem()
+                              .title("Etapas de Ensino")
+                              .id("educationalStagesSection")
+                              .child(
+                                S.document()
+                                  .schemaType("educationalStagesSection")
+                                  .documentId("educationalStagesSection"),
+                              ),
+                            S.listItem()
+                              .title("Esportes")
+                              .id("sportsSection")
+                              .child(
+                                S.document()
+                                  .schemaType("sportsSection")
+                                  .documentId("sportsSection"),
+                              ),
+                            S.documentTypeListItem("testimonialsSection").title(
+                              "Testemunhos",
+                            ),
+                          ]),
+                      ),
+                    S.listItem()
+                      .title("Nosso Grupo")
+                      .id("nossoGrupoPage")
+                      .child(
+                        S.document()
+                          .schemaType("nossoGrupoPage")
+                          .documentId("nossoGrupoPage"),
+                      ),
+                    S.listItem()
+                      .title("Página Ensino")
+                      .id("ensinoPage")
+                      .child(
+                        S.document()
+                          .schemaType("ensinoPage")
+                          .documentId("ensinoPage"),
+                      ),
+                    S.listItem()
+                      .title("Seção de Contato")
+                      .id("contactSection")
+                      .child(
+                        S.document()
+                          .schemaType("contactSection")
+                          .documentId("contactSection"),
+                      ),
+                  ]),
               ),
             S.divider(),
             S.listItem()
@@ -54,11 +99,15 @@ export default defineConfig({
                     S.documentTypeListItem("blogPost").title("Posts"),
                     S.documentTypeListItem("category").title("Categorias"),
                     S.documentTypeListItem("author").title("Autores"),
-                  ])
+                  ]),
               ),
             S.divider(),
             ...S.documentTypeListItems().filter(
-              (item) => !pageSectionTypes.includes(item.getId() ?? "") && !["blogPost", "category", "author"].includes(item.getId() ?? "")
+              (item) =>
+                !pageSectionTypes.includes(item.getId() ?? "") &&
+                !["blogPost", "category", "author"].includes(
+                  item.getId() ?? "",
+                ),
             ),
           ]),
     }),
@@ -72,4 +121,3 @@ export default defineConfig({
     bundles: [codeComponentOverrides, presentationCodeOverrides],
   },
 });
-

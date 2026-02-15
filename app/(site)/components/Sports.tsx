@@ -5,9 +5,6 @@ import { PortableText } from "@portabletext/react";
 import ButtonWithIcon from "./ButtonWithIcon";
 import type { SportsSection } from "@/sanity/lib/fetch";
 
-const DEFAULT_BACKGROUND = "/BACKGROUND-sport.png";
-const DEFAULT_ATHLETES_IMAGE = "/freepik__background__78261 1.png";
-
 const richTextComponents = {
   block: {
     normal: ({ children }: { children?: React.ReactNode }) => (
@@ -36,8 +33,8 @@ type Props = {
 };
 
 export default function Sports({ section }: Props) {
-  const backgroundUrl = section?.backgroundUrl ?? DEFAULT_BACKGROUND;
-  const athletesImageUrl = section?.athletesImageUrl ?? DEFAULT_ATHLETES_IMAGE;
+  const backgroundUrl = section?.backgroundUrl ?? "";
+  const athletesImageUrl = section?.athletesImageUrl ?? "";
   const eyebrow = section?.eyebrow ?? "ESPORTES";
   const title = section?.title;
   const description = section?.description;

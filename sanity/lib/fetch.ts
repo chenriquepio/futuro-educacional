@@ -65,6 +65,10 @@ export interface HeroSlide {
   image: { asset?: { _ref: string }; hotspot?: unknown };
   /** URL direta do asset (sem crop) para exibir a imagem inteira. */
   imageUrl?: string | null;
+  /** Objeto de imagem de fundo (para urlFor com format jpg e remover transparência). */
+  background?: { asset?: { _ref: string }; hotspot?: unknown } | null;
+  /** Imagem de fundo do hero (opcional). Se não definida, usa a imagem principal ou fallback. */
+  backgroundUrl?: string | null;
   alt?: string;
   /** Título em rich text (cor padrão branco; use marca "Cor do texto" para amarelo/destaque). */
   title?: PortableTextBlock[];

@@ -6,7 +6,14 @@ import Sports from "./components/Sports";
 import StoriesSection from "./components/StoriesSection";
 import Testimonials from "./components/Testimonials";
 import ScrollToHashOnLoad from "./components/ScrollToHashOnLoad";
-import { getBlogPostsByCategorySlug, getEducationalStagesSection, getContactSection, getSportsSection, getTestimonialsSection } from "@/sanity/lib/fetch";
+import {
+  getBlogPostsByCategorySlug,
+  getEducationalStagesSection,
+  getContactSection,
+  getSportsSection,
+  getTestimonialsSection,
+  getHeroSlides,
+} from "@/sanity/lib/fetch";
 import type { BlogPostWithImageUrl } from "@/sanity/lib/fetch";
 
 function formatPublishedAt(dateStr: string): string {
@@ -92,13 +99,22 @@ const defaultDifferentials = [
 ];
 
 export default async function Home() {
-  const [diferenciaisPosts, exAlunosPosts, educationalStagesData, contactSectionData, sportsSectionData, testimonialsSectionData] = await Promise.all([
+  const [
+    diferenciaisPosts,
+    exAlunosPosts,
+    educationalStagesData,
+    contactSectionData,
+    sportsSectionData,
+    testimonialsSectionData,
+    heroSlides,
+  ] = await Promise.all([
     getBlogPostsByCategorySlug("diferenciais"),
     getBlogPostsByCategorySlug("ex-alunos"),
     getEducationalStagesSection(),
     getContactSection(),
     getSportsSection(),
     getTestimonialsSection(),
+    getHeroSlides(),
   ]);
 
   const differentials =
@@ -114,7 +130,7 @@ export default async function Home() {
     <>
       <ScrollToHashOnLoad />
       <section className="max-h-screen" id="hero">
-        <Hero />
+        <Hero initialSlides={heroSlides} />
       </section>
       <section id="ensino">
         <EducationalStages section={educationalStagesData} />

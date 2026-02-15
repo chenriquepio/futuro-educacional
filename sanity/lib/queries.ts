@@ -122,6 +122,8 @@ export const heroSlidesQuery = groq`
     _id,
     image,
     "imageUrl": image.asset->url,
+    background,
+    "backgroundUrl": background.asset->url,
     alt,
     title,
     subtitle,
@@ -134,7 +136,7 @@ export const heroSlidesQuery = groq`
 
 // ============ ETAPAS DE ENSINO (HOME) ============
 export const educationalStagesSectionQuery = groq`
-  *[_type == "educationalStagesSection"][0] {
+  coalesce(*[_id == "educationalStagesSection"][0], *[_type == "educationalStagesSection"][0]) {
     _id,
     eyebrow,
     title,
@@ -150,7 +152,7 @@ export const educationalStagesSectionQuery = groq`
 
 // ============ SEÇÃO DE CONTATO ============
 export const contactSectionQuery = groq`
-  *[_type == "contactSection"][0] {
+  coalesce(*[_id == "contactSection"][0], *[_type == "contactSection"][0]) {
     _id,
     background,
     "backgroundUrl": background.asset->url,
@@ -161,7 +163,7 @@ export const contactSectionQuery = groq`
 
 // ============ SEÇÃO ESPORTES (HOME) ============
 export const sportsSectionQuery = groq`
-  *[_type == "sportsSection"][0] {
+  coalesce(*[_id == "sportsSection"][0], *[_type == "sportsSection"][0]) {
     _id,
     background,
     "backgroundUrl": background.asset->url,
@@ -192,9 +194,11 @@ export const testimonialsSectionQuery = groq`
       avatar
     }
   }
-`;// ============ PÁGINA NOSSO GRUPO ============
+`;
+
+// ============ PÁGINA NOSSO GRUPO ============
 export const nossoGrupoPageQuery = groq`
-  *[_type == "nossoGrupoPage"][0] {
+  coalesce(*[_id == "nossoGrupoPage"][0], *[_type == "nossoGrupoPage"][0]) {
     _id,
     hero {
       backgroundImage,
@@ -217,9 +221,11 @@ export const nossoGrupoPageQuery = groq`
       "contentImageUrl": contentImage.asset->url
     }
   }
-`;// ============ PÁGINA ENSINO ============
+`;
+
+// ============ PÁGINA ENSINO ============
 export const ensinoPageQuery = groq`
-  *[_type == "ensinoPage"][0] {
+  coalesce(*[_id == "ensinoPage"][0], *[_type == "ensinoPage"][0]) {
     _id,
     hero {
       backgroundImage,
