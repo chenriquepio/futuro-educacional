@@ -16,6 +16,7 @@ import {
   testimonialsSectionQuery,
   nossoGrupoPageQuery,
   ensinoPageQuery,
+  esportesPageQuery,
 } from "./queries";
 import type { PortableTextBlock } from "@portabletext/types";
 
@@ -169,6 +170,46 @@ export interface EnsinoPage {
   stages?: EnsinoPageStage[];
 }
 
+export interface EsportesPage {
+  _id: string;
+  hero?: {
+    backgroundImageUrl?: string | null;
+    eyebrow?: string;
+    title?: string;
+    imageClassName?: string;
+    bottomBlur?: boolean;
+    imageMask?: boolean;
+  };
+  dynamicHeroContent?: {
+    title?: string;
+    description?: string;
+    imageUrl?: string | null;
+    backgroundUrl?: string | null;
+    highlights?: string[];
+  };
+  storiesSection?: {
+    eyebrow?: string;
+    title?: string;
+    description?: string;
+  };
+  contentSection?: {
+    section1?: {
+      title?: string;
+      description?: string;
+      imageUrl?: string | null;
+    };
+    section2?: {
+      title?: string;
+      description?: string;
+      imageUrl?: string | null;
+    };
+  };
+  ourDifferential?: {
+    eyebrow?: string;
+    title?: PortableTextBlock[];
+  };
+}
+
 // Fetch functions
 export async function getDocuments(): Promise<Document[]> {
   return client.fetch(documentsQuery);
@@ -232,9 +273,9 @@ export async function getNossoGrupoPage(): Promise<NossoGrupoPage | null> {
 }
 
 export async function getEnsinoPage(): Promise<EnsinoPage | null> {
-  const result = await client.fetch(ensinoPageQuery);
-  console.log(result, 'result ensino page');
-  return result;
+  return client.fetch(ensinoPageQuery);
 }
 
-
+export async function getEsportesPage(): Promise<EsportesPage | null> {
+  return client.fetch(esportesPageQuery);
+}

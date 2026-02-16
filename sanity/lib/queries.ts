@@ -260,3 +260,51 @@ export const ensinoPageQuery = groq`
     }
   }
 `;
+
+// ============ PÁGINA ESPORTES ============
+export const esportesPageQuery = groq`
+  coalesce(*[_id == "esportesPage"][0], *[_type == "esportesPage"][0]) {
+    _id,
+    hero {
+      backgroundImage,
+      "backgroundImageUrl": backgroundImage.asset->url,
+      eyebrow,
+      title,
+      imageClassName,
+      bottomBlur,
+      imageMask
+    },
+    dynamicHeroContent {
+      title,
+      description,
+      image,
+      "imageUrl": image.asset->url,
+      background,
+      "backgroundUrl": background.asset->url,
+      highlights
+    },
+    storiesSection {
+      eyebrow,
+      title,
+      description
+    },
+    contentSection {
+      section1 {
+        title,
+        description,
+        image,
+        "imageUrl": image.asset->url
+      },
+      section2 {
+        title,
+        description,
+        image,
+        "imageUrl": image.asset->url
+      }
+    },
+    ourDifferential {
+      eyebrow,
+      title
+    }
+  }
+`;

@@ -5,10 +5,6 @@ import type {
   EnsinoStageSelectorItem,
   EnsinoStageContentItem,
 } from "./EnsinoPageClient";
-import {
-  defaultEducationalStages,
-  defaultStageContent,
-} from "./defaultEnsinoData";
 
 function mapCmsToClient(
   cms: NonNullable<Awaited<ReturnType<typeof getEnsinoPage>>>,
@@ -19,11 +15,10 @@ function mapCmsToClient(
 } {
   const stages = cms.stages ?? [];
   const hasStages = stages.length > 0;
-console.log(cms.hero, 'cms.hero');
-console.log(cms, 'cms');
-  const hero: EnsinoHeroProps | null = cms.hero
+
+  const hero: EnsinoHeroProps | null = cms.hero?.backgroundImageUrl
     ? {
-        backgroundImage: cms.hero.backgroundImageUrl ?? "",
+        backgroundImage: cms.hero.backgroundImageUrl,
         eyebrow: cms.hero.eyebrow ?? "",
         title: cms.hero.title ?? "",
       }
@@ -32,44 +27,30 @@ console.log(cms, 'cms');
   const educationalStages: EnsinoStageSelectorItem[] = hasStages
     ? stages.map((s) => ({
         name: s.name,
-        image: s.selectorImageUrl ?? defaultEducationalStages[0]!.image,
+        image: s.selectorImageUrl ?? "",
       }))
-    : defaultEducationalStages;
+    : [];
 
   const stageContent: EnsinoStageContentItem[] = hasStages
-    ? stages.map((s, i) => ({
-        title: s.title ?? defaultStageContent[i]?.title ?? "",
+    ? stages.map((s) => ({
+        title: s.title ?? "",
         subtitle: s.subtitle,
-        image: s.imageUrl ?? defaultStageContent[i]?.image ?? "",
-        background: s.backgroundUrl ?? defaultStageContent[i]?.background ?? "",
-        description: s.description ?? defaultStageContent[i]?.description ?? "",
-        highlights: s.highlights ?? defaultStageContent[i]?.highlights ?? [],
+        image: s.imageUrl ?? "",
+        background: s.backgroundUrl ?? "",
+        description: s.description ?? "",
+        highlights: s.highlights ?? [],
         section1: {
-          title:
-            s.section1?.title ?? defaultStageContent[i]?.section1.title ?? "",
-          description:
-            s.section1?.description ??
-            defaultStageContent[i]?.section1.description ??
-            "",
-          image:
-            s.section1?.imageUrl ??
-            defaultStageContent[i]?.section1.image ??
-            "",
+          title: s.section1?.title ?? "",
+          description: s.section1?.description ?? "",
+          image: s.section1?.imageUrl ?? "",
         },
         section2: {
-          title:
-            s.section2?.title ?? defaultStageContent[i]?.section2.title ?? "",
-          description:
-            s.section2?.description ??
-            defaultStageContent[i]?.section2.description ??
-            "",
-          image:
-            s.section2?.imageUrl ??
-            defaultStageContent[i]?.section2.image ??
-            "",
+          title: s.section2?.title ?? "",
+          description: s.section2?.description ?? "",
+          image: s.section2?.imageUrl ?? "",
         },
       }))
-    : defaultStageContent;
+    : [];
 
   return { hero, educationalStages, stageContent };
 }
@@ -79,15 +60,15 @@ export default async function EnsinoPage() {
     getEnsinoPage(),
     getContactSection(),
   ]);
-  console.log(cms, 'cms page');
+
   const { hero, educationalStages, stageContent } = cms
     ? mapCmsToClient(cms)
     : {
         hero: null,
-        educationalStages: defaultEducationalStages,
-        stageContent: defaultStageContent,
+        educationalStages: [] as EnsinoStageSelectorItem[],
+        stageContent: [] as EnsinoStageContentItem[],
       };
-  console.log(hero, "hero");
+
   return (
     <EnsinoPageClient
       hero={hero}

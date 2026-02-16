@@ -77,28 +77,29 @@ export default async function NossoGrupoPage() {
     getContactSection(),
   ]);
 
-  const heroBg = data?.hero?.backgroundImageUrl ?? "";
-  const heroEyebrow = data?.hero?.eyebrow ?? "Nosso Grupo";
-  const heroTitle = data?.hero?.title ?? "Nossa História";
+  const hasHero = data?.hero?.backgroundImageUrl;
+  const heroEyebrow = data?.hero?.eyebrow ?? "";
+  const heroTitle = data?.hero?.title ?? "";
 
-  const historyEyebrow = data?.historySection?.eyebrow ?? "Nosso grupo";
-  const historyTitle =
-    data?.historySection?.title ?? "Conheça a nossa história";
+  const historyEyebrow = data?.historySection?.eyebrow ?? "";
+  const historyTitle = data?.historySection?.title ?? "";
   const historyContent = data?.historySection?.content;
   const timelineContent = data?.historySection?.timeline;
   const sideImageUrl = data?.historySection?.sideImageUrl;
 
-  const valuesBg =
-    data?.valuesSection?.backgroundImageUrl ?? "";
+  const valuesBg = data?.valuesSection?.backgroundImageUrl ?? "";
   const valuesContentUrl = data?.valuesSection?.contentImageUrl;
+  const hasValuesSection = valuesBg || valuesContentUrl;
 
   return (
     <>
-      <HeroShowcase
-        backgroundImage={heroBg}
-        eyebrow={heroEyebrow}
-        title={heroTitle}
-      />
+      {hasHero && (
+        <HeroShowcase
+          backgroundImage={data!.hero!.backgroundImageUrl!}
+          eyebrow={heroEyebrow}
+          title={heroTitle}
+        />
+      )}
 
       <section className="bg-white relative">
         <div className="container mx-auto px-4">
@@ -147,16 +148,17 @@ export default async function NossoGrupoPage() {
         )}
       </section>
 
-      <section
-        style={{
-          backgroundImage: `url(${valuesBg})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-          backgroundRepeat: "no-repeat",
-        }}
-        className="relative flex items-center justify-center text-white w-full overflow-hidden min-h-[480px] h-full md:max-h-[580px]"
-      >
-        {valuesContentUrl && (
+      {hasValuesSection && (
+        <section
+          style={{
+            backgroundImage: valuesBg ? `url(${valuesBg})` : undefined,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+          }}
+          className="relative flex items-center justify-center text-white w-full overflow-hidden min-h-[480px] h-full md:max-h-[580px]"
+        >
+          {valuesContentUrl && (
           <div className="relative z-10 w-full max-w-5xl px-4 py-12 md:py-20">
             <Image
               src={valuesContentUrl}
@@ -167,8 +169,9 @@ export default async function NossoGrupoPage() {
               priority
             />
           </div>
-        )}
-      </section>
+          )}
+        </section>
+      )}
 
       <ContactForm
         backgroundUrl={contactSection?.backgroundUrl}

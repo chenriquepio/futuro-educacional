@@ -5,11 +5,6 @@ import ContactForm from "../components/ContactForm";
 import HeroShowcase from "../components/HeroShowcase";
 import DynamicHeroContent from "../components/DynamicHeroContent";
 import { useState } from "react";
-import {
-  defaultEducationalStages,
-  defaultStageContent,
-} from "./defaultEnsinoData";
-
 export interface EnsinoHeroProps {
   backgroundImage: string;
   eyebrow: string;
@@ -42,22 +37,27 @@ interface EnsinoPageClientProps {
 
 export default function EnsinoPageClient({
   hero,
-  educationalStages = defaultEducationalStages,
-  stageContent = defaultStageContent,
+  educationalStages = [],
+  stageContent = [],
   contactBackgroundUrl,
   contactManImageUrl,
 }: EnsinoPageClientProps) {
   const [selectedStage, setSelectedStage] = useState(0);
   const currentContent = stageContent[selectedStage];
-console.log(hero);
+  const hasStages = educationalStages.length > 0 && stageContent.length > 0;
+
   return (
     <main className="bg-white">
-      <HeroShowcase
-        backgroundImage={hero?.backgroundImage ?? ""}
-        eyebrow={hero?.eyebrow ?? ""}
-        title={hero?.title ?? ""}
-      />
+      {hero && (
+        <HeroShowcase
+          backgroundImage={hero.backgroundImage}
+          eyebrow={hero.eyebrow}
+          title={hero.title}
+        />
+      )}
 
+      {hasStages && (
+        <>
       {/* Educational Stages Section */}
       <section className="pt-8 md:pt-16 bg-white">
         <div className="container mx-auto px-4">
@@ -248,6 +248,9 @@ console.log(hero);
           </div>
         </div>
       </section>
+
+        </>
+      )}
 
       <ContactForm
         backgroundUrl={contactBackgroundUrl}

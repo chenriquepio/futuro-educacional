@@ -13,6 +13,7 @@ import { sportsSection } from "./sportsSection";
 import { testimonialsSection } from "./testimonialsSection";
 import { nossoGrupoPage } from "./nossoGrupoPage";
 import { ensinoPage } from "./ensinoPage";
+import { esportesPage } from "./esportesPage";
 
-export const schemaTypes = [siteDocument, jobVacancy, jobApplication, blogPost, author, category, contactMessage, newsletterSubscription, heroSlide, educationalStagesSection, contactSection, sportsSection, testimonialsSection, nossoGrupoPage, ensinoPage];
+export const schemaTypes = [siteDocument, jobVacancy, jobApplication, blogPost, author, category, contactMessage, newsletterSubscription, heroSlide, educationalStagesSection, contactSection, sportsSection, testimonialsSection, nossoGrupoPage, ensinoPage, esportesPage];
 

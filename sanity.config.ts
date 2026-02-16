@@ -7,6 +7,7 @@ import { schemaTypes } from "./sanity/schemas";
 const pageSectionTypes = [
   "nossoGrupoPage",
   "ensinoPage",
+  "esportesPage",
   "heroSlide",
   "educationalStagesSection",
   "contactSection",
@@ -78,6 +79,14 @@ export default defineConfig({
                         S.document()
                           .schemaType("ensinoPage")
                           .documentId("ensinoPage"),
+                      ),
+                    S.listItem()
+                      .title("Página Esportes")
+                      .id("esportesPage")
+                      .child(
+                        S.document()
+                          .schemaType("esportesPage")
+                          .documentId("esportesPage"),
                       ),
                     S.listItem()
                       .title("Seção de Contato")
