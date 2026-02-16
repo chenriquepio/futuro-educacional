@@ -8,13 +8,13 @@ const richTextWithColor = {
       { title: "Negrito", value: "strong" },
       { title: "Sublinhado", value: "underline" },
     ],
-    annotations: [
+        annotations: [
       {
         name: "textColor",
         type: "object",
         title: "Cor do texto",
         fields: [
-          {
+          defineField({
             name: "color",
             type: "string",
             title: "Cor",
@@ -28,7 +28,7 @@ const richTextWithColor = {
               ],
             },
             validation: (Rule) => Rule.required(),
-          },
+          }),
         ],
       },
     ],
@@ -70,14 +70,19 @@ export const educationalStagesSection = defineType({
         {
           type: "object",
           fields: [
-            { name: "name", type: "string", title: "Nome", validation: (Rule: { required: () => unknown }) => Rule.required() },
-            {
+            defineField({
+              name: "name",
+              type: "string",
+              title: "Nome",
+              validation: (Rule) => Rule.required(),
+            }),
+            defineField({
               name: "image",
               type: "image",
               title: "Imagem / Ícone",
               options: { hotspot: true },
               validation: (Rule) => Rule.required(),
-            },
+            }),
           ],
           preview: {
             select: { name: "name" },

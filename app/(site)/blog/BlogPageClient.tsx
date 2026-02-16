@@ -95,12 +95,12 @@ export default function BlogPageClient({
   };
 
   // Helper para obter URL da imagem
-  const getImageUrl = (image: unknown, fallback: string) => {
-    if (!image) return fallback;
+  const getImageUrl = (image: unknown) => {
+    if (!image) return "";
     try {
       return urlFor(image).url();
     } catch {
-      return fallback;
+      return "";
     }
   };
 
@@ -206,10 +206,7 @@ export default function BlogPageClient({
                   >
                     <div className="relative w-16 h-16 md:w-20 md:h-20 shrink-0 rounded-lg overflow-hidden">
                       <Image
-                        src={getImageUrl(
-                          post.mainImage,
-                          "/crianças/crianca1.jpg"
-                        )}
+                        src={getImageUrl(post.mainImage)}
                         alt={post.title}
                         fill
                         sizes="80px"
@@ -345,10 +342,7 @@ export default function BlogPageClient({
                 >
                   <div className="relative h-48 md:h-64 w-full">
                     <Image
-                      src={getImageUrl(
-                        post.mainImage,
-                        "/crianças/crianca1.jpg"
-                      )}
+                      src={getImageUrl(post.mainImage)}
                       alt={post.title}
                       fill
                       sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"

@@ -70,7 +70,9 @@ interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: PageProps): Promise<Metadata> {
   const { slug } = await params;
   let post: BlogPost | null = null;
   if (process.env.NEXT_PUBLIC_SANITY_PROJECT_ID) {
@@ -108,7 +110,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       description,
       type: "article",
       url: canonical,
-      images: imageUrl ? [{ url: imageUrl, width: 1200, height: 630, alt: title }] : undefined,
+      images: imageUrl
+        ? [{ url: imageUrl, width: 1200, height: 630, alt: title }]
+        : undefined,
       publishedTime: post.publishedAt || undefined,
     },
     twitter: {
@@ -225,12 +229,12 @@ export default async function BlogPostPage({ params }: PageProps) {
   }
 
   // Helper para obter URL da imagem
-  const getImageUrl = (image: unknown, fallback: string) => {
-    if (!image) return fallback;
+  const getImageUrl = (image: unknown) => {
+    if (!image) return "";
     try {
       return urlFor(image).url();
     } catch {
-      return fallback;
+      return "";
     }
   };
 
@@ -248,7 +252,7 @@ export default async function BlogPostPage({ params }: PageProps) {
   return (
     <main className="bg-white min-h-screen">
       <HeroShowcase
-        backgroundImage={getImageUrl(post.mainImage, "/escola.jpg")}
+        backgroundImage={getImageUrl(post.mainImage)}
         eyebrow="BLOG"
         title={post.title}
       />
@@ -280,7 +284,7 @@ export default async function BlogPostPage({ params }: PageProps) {
               {/* Imagem Principal */}
               <div className="relative h-64 md:h-96 w-full rounded-xl overflow-hidden mb-8">
                 <Image
-                  src={getImageUrl(post.mainImage, "/escola.jpg")}
+                  src={getImageUrl(post.mainImage)}
                   alt={post.title}
                   fill
                   className="object-cover"
@@ -295,7 +299,7 @@ export default async function BlogPostPage({ params }: PageProps) {
                   <div className="relative w-10 h-10 rounded-full overflow-hidden bg-[#1C437F]">
                     {post.authorImage ? (
                       <Image
-                        src={getImageUrl(post.authorImage, "")}
+                        src={getImageUrl(post.authorImage)}
                         alt={post.author}
                         fill
                         className="object-cover"
@@ -504,10 +508,7 @@ export default async function BlogPostPage({ params }: PageProps) {
                       >
                         <div className="relative w-20 h-20 shrink-0 rounded-lg overflow-hidden">
                           <Image
-                            src={getImageUrl(
-                              latestPost.mainImage,
-                              "/crianças/crianca1.jpg"
-                            )}
+                            src={getImageUrl(latestPost.mainImage)}
                             alt={latestPost.title}
                             fill
                             sizes="80px"
@@ -540,7 +541,9 @@ export default async function BlogPostPage({ params }: PageProps) {
                         className="flex items-center justify-between text-[#17012C] hover:text-[#1C437F] transition-colors"
                       >
                         <span>{category.title}</span>
-                        <span className="text-gray-500">({category.count})</span>
+                        <span className="text-gray-500">
+                          ({category.count})
+                        </span>
                       </Link>
                     </li>
                   ))}
@@ -556,4 +559,3 @@ export default async function BlogPostPage({ params }: PageProps) {
     </main>
   );
 }
-

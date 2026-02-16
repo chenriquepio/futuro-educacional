@@ -8,13 +8,13 @@ const richTextWithColor = {
       { title: "Negrito", value: "strong" },
       { title: "Sublinhado", value: "underline" },
     ],
-    annotations: [
+        annotations: [
       {
         name: "textColor",
         type: "object",
         title: "Cor do texto",
         fields: [
-          {
+          defineField({
             name: "color",
             type: "string",
             title: "Cor",
@@ -28,7 +28,7 @@ const richTextWithColor = {
               ],
             },
             validation: (Rule) => Rule.required(),
-          },
+          }),
         ],
       },
     ],
@@ -122,13 +122,13 @@ export const esportesPage = defineType({
           title: "Título",
           initialValue: "O que acontece na Educação Física e no Esporte",
         },
-        {
+        defineField({
           name: "description",
-          type: "string",
+          type: "text",
           title: "Descrição",
           rows: 2,
           initialValue: "Relembre conquistas e trajetórias de quem levou nossa escola no coração",
-        },
+        }),
       ],
     }),
     defineField({

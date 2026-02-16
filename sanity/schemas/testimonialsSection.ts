@@ -8,30 +8,30 @@ const richTextWithColor = {
       { title: "Negrito", value: "strong" },
       { title: "Sublinhado", value: "underline" },
     ],
-    annotations: [
-      {
-        name: "textColor",
-        type: "object",
-        title: "Cor do texto",
-        fields: [
+        annotations: [
           {
-            name: "color",
-            type: "string",
-            title: "Cor",
-            options: {
-              list: [
-                { title: "Amarelo (destaque)", value: "#FDC938" },
-                { title: "Azul", value: "#1C437F" },
-                { title: "Azul escuro", value: "#1e3a5f" },
-                { title: "Branco", value: "#FFFFFF" },
-                { title: "Preto", value: "#000000" },
-              ],
-            },
-            validation: (Rule) => Rule.required(),
+            name: "textColor",
+            type: "object",
+            title: "Cor do texto",
+            fields: [
+              defineField({
+                name: "color",
+                type: "string",
+                title: "Cor",
+                options: {
+                  list: [
+                    { title: "Amarelo (destaque)", value: "#FDC938" },
+                    { title: "Azul", value: "#1C437F" },
+                    { title: "Azul escuro", value: "#1e3a5f" },
+                    { title: "Branco", value: "#FFFFFF" },
+                    { title: "Preto", value: "#000000" },
+                  ],
+                },
+                validation: (Rule) => Rule.required(),
+              }),
+            ],
           },
         ],
-      },
-    ],
   },
 };
 

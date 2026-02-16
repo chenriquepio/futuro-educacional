@@ -44,60 +44,6 @@ function mapPostToDifferential(post: BlogPostWithImageUrl) {
   };
 }
 
-const defaultStories = [
-  {
-    title:
-      "Do Futuro para o Mundo: Como Ana transformou sua paixão em carreira",
-    image: "/IMG.png",
-    creator: "Ana",
-    cargo: "Ex Alunos",
-    data: "16 de outubro de 2025",
-  },
-  {
-    title: "Ex-aluno conquista destaque no esporte internacional",
-    image: "/IMG-1.png",
-    creator: "João",
-    cargo: "Ex Alunos",
-    data: "16 de outubro de 2025",
-  },
-  {
-    title:
-      "Do Futuro para a Justiça: ex-aluna realiza o sonho de se tornar juíza",
-    image: "/IMG-2.png",
-    creator: "Maria",
-    cargo: "Ex Alunos",
-    data: "16 de outubro de 2025",
-  },
-];
-
-const defaultDifferentials = [
-  {
-    title: "Desenvolvimento de autonomia do estudante",
-    imageSrc: "/57e4b9f1a012cdf21feaf9178a9afbc447796871.jpg",
-    imageAlt: "Estudante aprovada em medicina celebrando com a família",
-  },
-  {
-    title: "Resultados de aprovação",
-    imageSrc: "/9b1c6dfcba9e9481a54c53248e1d40a5b80884d2.jpg",
-    imageAlt: "Professor acompanhando aluno em sala de aula",
-  },
-  {
-    title: "Estímulo ao hábito de estudo",
-    imageLabel: "Estudo",
-    imageSrc: "/9b1c6dfcba9e9481a54c53248e1d40a5b80884d2.jpg",
-  },
-  {
-    title: "Inovação tecnológica aplicada à sala de aula",
-    imageLabel: "Inovação",
-    imageSrc: "/9b1c6dfcba9e9481a54c53248e1d40a5b80884d2.jpg",
-  },
-  {
-    title: "Acompanhamento socioemocional constante",
-    imageLabel: "Apoio",
-    imageSrc: "/9b1c6dfcba9e9481a54c53248e1d40a5b80884d2.jpg",
-  },
-];
-
 export default async function Home() {
   const [
     diferenciaisPosts,
@@ -120,11 +66,9 @@ export default async function Home() {
   const differentials =
     diferenciaisPosts.length > 0
       ? diferenciaisPosts.map(mapPostToDifferential)
-      : defaultDifferentials;
+      : [];
   const stories =
-    exAlunosPosts.length > 0
-      ? exAlunosPosts.map(mapPostToStory)
-      : defaultStories;
+    exAlunosPosts.length > 0 ? exAlunosPosts.map(mapPostToStory) : [];
 
   return (
     <>
