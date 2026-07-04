@@ -498,7 +498,7 @@ export default async function BlogPostPage({ params }: PageProps) {
                 </h3>
                 <div className="space-y-4">
                   {latestPosts
-                    .filter((p) => p._id !== post._id)
+                    .filter((p) => p._id !== post._id && p.slug?.current)
                     .slice(0, 3)
                     .map((latestPost) => (
                       <Link
@@ -534,7 +534,9 @@ export default async function BlogPostPage({ params }: PageProps) {
                   Categorias
                 </h3>
                 <ul className="space-y-2">
-                  {categories.map((category) => (
+                  {categories
+                    .filter((category) => category.slug?.current)
+                    .map((category) => (
                     <li key={category._id}>
                       <Link
                         href={`/blog?categoria=${category.slug.current}`}

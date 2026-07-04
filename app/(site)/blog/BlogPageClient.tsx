@@ -405,7 +405,7 @@ export default function BlogPageClient({
                       {post.excerpt}
                     </p>
                     <Link
-                      href={`/blog/${post.slug.current}`}
+                      href={`/blog/${post.slug?.current ?? ""}`}
                       className="inline-block bg-[#1C437F] text-white font-semibold px-5 md:px-6 py-2 rounded-lg hover:bg-[#1C437F]/90 transition-colors text-sm md:text-base"
                     >
                       Leia Mais

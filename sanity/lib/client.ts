@@ -2,11 +2,14 @@ import { createClient } from "@sanity/client";
 import { createImageUrlBuilder } from "@sanity/image-url";
 
 // Cliente para leitura (usado no frontend)
+// useCdn: false — as páginas são estáticas e só são regeneradas via revalidação
+// (webhook do Sanity). Ler direto da API garante que a regeneração pegue o
+// conteúdo mais recente na hora, sem o atraso de cache do CDN.
 export const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || "production",
   apiVersion: "2024-01-01",
-  useCdn: process.env.NODE_ENV === "production",
+  useCdn: false,
 });
 
 // Cliente para escrita (usado apenas no servidor com token)
