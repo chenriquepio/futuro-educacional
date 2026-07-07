@@ -124,7 +124,7 @@ export const ensinoPage = defineType({
       title: "Etapas de ensino",
       type: "array",
       description:
-        "Ordem: Infantil, Fundamental I, Fundamental II, Ensino Médio, Cursinho. Cada item: nome no seletor + imagem do círculo + todo o conteúdo exibido ao selecionar.",
+        "Fonte única dos segmentos (aparecem na Home, no índice /ensino e cada um vira uma página própria /ensino/<slug>). Ordem sugerida: Educação Infantil, Ensino Fundamental I, Ensino Fundamental II, Ensino Médio, Contraturno Integral, Cursinho PV. Cada item: nome + slug + imagem do círculo + todo o conteúdo da página.",
       of: [
         {
           type: "object",
@@ -133,7 +133,16 @@ export const ensinoPage = defineType({
               name: "name",
               type: "string",
               title: "Nome (seletor)",
-              description: "Ex: Infantil, Fundamental I",
+              description: "Ex: Educação Infantil, Ensino Fundamental I",
+              validation: (Rule) => Rule.required(),
+            }),
+            defineField({
+              name: "slug",
+              type: "slug",
+              title: "Slug (endereço da página)",
+              description:
+                "Identificador usado na URL, ex: /ensino/educacao-infantil. Clique em 'Gerar' para criar a partir do nome.",
+              options: { source: "name", maxLength: 96 },
               validation: (Rule) => Rule.required(),
             }),
             defineField({
@@ -161,7 +170,7 @@ export const ensinoPage = defineType({
     prepare() {
       return {
         title: "Página Ensino",
-        subtitle: "Hero e etapas (Infantil ao Cursinho)",
+        subtitle: "Hero e segmentos (fonte única: Home + páginas de cada segmento)",
       };
     },
   },

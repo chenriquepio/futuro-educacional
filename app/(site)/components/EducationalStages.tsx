@@ -1,15 +1,12 @@
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { PortableText } from "@portabletext/react";
-import type { EducationalStagesSection } from "@/sanity/lib/fetch";
-
-const defaultStages = [
-  { name: "Infantil", imageUrl: "/ENSINO INFANTIL.svg" },
-  { name: "Fundamental I", imageUrl: "/ENSINO FUNDAMENTAL I.svg" },
-  { name: "Fundamental II", imageUrl: "/ENSINO FUNDAMENTAL II.svg" },
-  { name: "Ensino Médio", imageUrl: "/ENSINO MÉDIO.svg" },
-  { name: "Cursinho", imageUrl: "/CURSINHO.svg" },
-];
+import type {
+  EducationalStagesSection,
+  EnsinoStageCard,
+} from "@/sanity/lib/fetch";
+import { stageSlug } from "../ensino/stageSlug";
 
 const richTitleComponents = {
   block: {
@@ -36,13 +33,13 @@ const richTitleComponents = {
 
 type Props = {
   section?: EducationalStagesSection | null;
+  stages?: EnsinoStageCard[];
 };
 
-export default function EducationalStages({ section }: Props) {
+export default function EducationalStages({ section, stages = [] }: Props) {
   const eyebrow = section?.eyebrow ?? "Matrículas 2026";
   const title = section?.title;
   const backgroundUrl = section?.backgroundUrl;
-  const stages = section?.stages?.length ? section.stages : defaultStages;
 
   return (
     <section
@@ -87,19 +84,37 @@ export default function EducationalStages({ section }: Props) {
           </h2>
         </div>
 
-        <div className="flex flex-nowrap justify-center gap-4 md:gap-6">
+        <div className="flex flex-wrap md:flex-nowrap justify-center gap-4 md:gap-6">
           {stages.map((stage, index) => (
-            <div key={index} className="relative">
-              <div className="w-full h-full flex flex-col items-center justify-center">
-                <Image
-                  src={stage.imageUrl ?? "/ENSINO INFANTIL.svg"}
-                  alt={stage.name}
-                  width={180}
-                  height={60}
-                  className="object-contain w-[120px] md:w-[150px] lg:w-[180px] h-auto"
-                />
+            <Link
+              key={index}
+              href={`/ensino/${stageSlug(stage)}`}
+              className="group flex flex-col items-center cursor-pointer transition-all duration-300 hover:scale-105"
+            >
+              <div className="relative w-28 h-40 md:w-36 md:h-56 rounded-full overflow-hidden border-2 border-[#1C437F] bg-[#1C437F]">
+                {stage.selectorImageUrl && (
+                  <div
+                    className="absolute inset-0"
+                    style={{
+                      maskImage:
+                        "linear-gradient(to bottom, black 75%, transparent 75%)",
+                      WebkitMaskImage:
+                        "linear-gradient(to bottom, black 75%, transparent 75%)",
+                    }}
+                  >
+                    <Image
+                      src={stage.selectorImageUrl}
+                      alt={stage.name}
+                      fill
+                      className="object-cover object-top scale-[0.8]"
+                    />
+                  </div>
+                )}
+                <span className="absolute whitespace-nowrap bottom-6 md:bottom-8 left-1/2 -translate-x-1/2 text-xs md:text-sm text-center px-3 md:px-4 py-1.5 md:py-2 rounded-full bg-[#FDC938] text-[#1C437F] font-semibold transition-all duration-300">
+                  {stage.name}
+                </span>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>

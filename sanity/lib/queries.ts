@@ -135,18 +135,27 @@ export const heroSlidesQuery = groq`
 `;
 
 // ============ ETAPAS DE ENSINO (HOME) ============
+// Apenas o cabeçalho da seção (badge, título e fundo). Os cards de segmentos
+// vêm de `ensinoStageCardsQuery` (fonte única: documento "Página Ensino").
 export const educationalStagesSectionQuery = groq`
   coalesce(*[_id == "educationalStagesSection"][0], *[_type == "educationalStagesSection"][0]) {
     _id,
     eyebrow,
     title,
     background,
-    "backgroundUrl": background.asset->url,
-    stages[] {
-      name,
-      image,
-      "imageUrl": image.asset->url
-    }
+    "backgroundUrl": background.asset->url
+  }
+`;
+
+// Cards de segmentos (usados na home e no índice de /ensino). Fonte única:
+// o documento "Página Ensino" (ensinoPage.stages).
+export const ensinoStageCardsQuery = groq`
+  coalesce(*[_id == "ensinoPage"][0], *[_type == "ensinoPage"][0]).stages[] {
+    name,
+    "slug": slug.current,
+    "selectorImageUrl": selectorImage.asset->url,
+    title,
+    description
   }
 `;
 
@@ -235,6 +244,7 @@ export const ensinoPageQuery = groq`
     },
     stages[] {
       name,
+      "slug": slug.current,
       selectorImage,
       "selectorImageUrl": selectorImage.asset->url,
       title,
