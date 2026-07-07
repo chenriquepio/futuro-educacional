@@ -16,6 +16,7 @@ import {
   testimonialsSectionQuery,
   nossoGrupoPageQuery,
   ensinoPageQuery,
+  ensinoStageCardsQuery,
   esportesPageQuery,
 } from "./queries";
 import type { PortableTextBlock } from "@portabletext/types";
@@ -85,7 +86,16 @@ export interface EducationalStagesSection {
   eyebrow?: string;
   title?: PortableTextBlock[];
   backgroundUrl?: string | null;
-  stages?: { name: string; imageUrl?: string | null }[];
+}
+
+// Card de segmento usado na home e no índice de /ensino.
+// Fonte única: documento "Página Ensino" (ensinoPage.stages).
+export interface EnsinoStageCard {
+  name: string;
+  slug?: string | null;
+  selectorImageUrl?: string | null;
+  title?: string;
+  description?: string;
 }
 
 export interface ContactSection {
@@ -141,6 +151,7 @@ export interface NossoGrupoPage {
 
 export interface EnsinoPageStage {
   name: string;
+  slug?: string | null;
   selectorImageUrl?: string | null;
   title?: string;
   subtitle?: string;
@@ -274,6 +285,13 @@ export async function getNossoGrupoPage(): Promise<NossoGrupoPage | null> {
 
 export async function getEnsinoPage(): Promise<EnsinoPage | null> {
   return client.fetch(ensinoPageQuery);
+}
+
+export async function getEnsinoStageCards(): Promise<EnsinoStageCard[]> {
+  const result = await client.fetch<EnsinoStageCard[] | null>(
+    ensinoStageCardsQuery,
+  );
+  return result ?? [];
 }
 
 export async function getEsportesPage(): Promise<EsportesPage | null> {

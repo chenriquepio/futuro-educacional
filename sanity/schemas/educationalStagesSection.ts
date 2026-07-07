@@ -62,39 +62,6 @@ export const educationalStagesSection = defineType({
       options: { hotspot: true },
       description: "Background da seção (opcional). Se vazio, usa fundo branco.",
     }),
-    defineField({
-      name: "stages",
-      title: "Etapas",
-      type: "array",
-      of: [
-        {
-          type: "object",
-          fields: [
-            defineField({
-              name: "name",
-              type: "string",
-              title: "Nome",
-              validation: (Rule) => Rule.required(),
-            }),
-            defineField({
-              name: "image",
-              type: "image",
-              title: "Imagem / Ícone",
-              options: { hotspot: true },
-              validation: (Rule) => Rule.required(),
-            }),
-          ],
-          preview: {
-            select: { name: "name" },
-            prepare({ name }: { name?: string }) {
-              return { title: name || "Etapa" };
-            },
-          },
-        },
-      ],
-      description: "Lista de etapas (Infantil, Fundamental I, etc.) com nome e imagem.",
-      validation: (Rule) => Rule.min(1),
-    }),
   ],
   preview: {
     select: { eyebrow: "eyebrow" },

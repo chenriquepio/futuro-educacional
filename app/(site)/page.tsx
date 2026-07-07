@@ -9,6 +9,7 @@ import ScrollToHashOnLoad from "./components/ScrollToHashOnLoad";
 import {
   getBlogPostsByCategorySlug,
   getEducationalStagesSection,
+  getEnsinoStageCards,
   getContactSection,
   getSportsSection,
   getTestimonialsSection,
@@ -49,6 +50,7 @@ export default async function Home() {
     diferenciaisPosts,
     exAlunosPosts,
     educationalStagesData,
+    educationalStageCards,
     contactSectionData,
     sportsSectionData,
     testimonialsSectionData,
@@ -57,6 +59,7 @@ export default async function Home() {
     getBlogPostsByCategorySlug("diferenciais"),
     getBlogPostsByCategorySlug("ex-alunos"),
     getEducationalStagesSection(),
+    getEnsinoStageCards(),
     getContactSection(),
     getSportsSection(),
     getTestimonialsSection(),
@@ -77,7 +80,10 @@ export default async function Home() {
         <Hero initialSlides={heroSlides} />
       </section>
       <section id="ensino">
-        <EducationalStages section={educationalStagesData} />
+        <EducationalStages
+          section={educationalStagesData}
+          stages={educationalStageCards}
+        />
       </section>
       <section id="contato">
         <ContactForm
