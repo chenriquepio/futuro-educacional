@@ -7,6 +7,7 @@ import Navigation from "./Navigation";
 
 export default function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const meuFuturoUrl = "https://meu-futuro-homolog.web.app/";
 
   const mobileNavItems = [
     { label: "Nosso Grupo", href: "/nosso-grupo" },
@@ -15,6 +16,11 @@ export default function Header() {
     { label: "Trabalhe Conosco", href: "/trabalhe-conosco" },
     { label: "Blog", href: "/blog" },
     { label: "Contato", href: "#contato" },
+    {
+      label: "Acessar Meu Futuro",
+      href: meuFuturoUrl,
+      external: true,
+    },
   ];
 
   return (
@@ -124,7 +130,7 @@ export default function Header() {
           {/* Mobile Menu Button */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="lg:hidden p-2 text-white"
+            className="xl:hidden p-2 text-white"
             aria-label="Menu"
           >
             {isMobileMenuOpen ? (
@@ -166,14 +172,14 @@ export default function Header() {
         {/* Mobile Menu Overlay */}
         {isMobileMenuOpen && (
           <div
-            className="fixed inset-0 bg-black/50 z-40 lg:hidden"
+            className="fixed inset-0 bg-black/50 z-40 xl:hidden"
             onClick={() => setIsMobileMenuOpen(false)}
           />
         )}
 
         {/* Mobile Menu */}
         <div
-          className={`fixed top-[33px] left-0 right-0 bg-gradient-to-b from-[#001F63] to-[#002576] z-50 lg:hidden transition-all duration-300 ${
+          className={`fixed top-[70px] md:top-[135px] left-0 right-0 max-h-[calc(100vh-70px)] overflow-y-auto bg-gradient-to-b from-[#001F63] to-[#002576] z-50 xl:hidden transition-all duration-300 md:max-h-[calc(100vh-135px)] ${
             isMobileMenuOpen
               ? "opacity-100 translate-y-0"
               : "opacity-0 -translate-y-full pointer-events-none"
@@ -181,16 +187,38 @@ export default function Header() {
         >
           <div className="container mx-auto px-4 py-6">
             <div className="flex flex-col gap-4">
-              {mobileNavItems.map((item) => (
-                <Link
-                  key={item.label}
-                  href={item.href}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                  className="text-white text-lg font-medium py-3 px-4 rounded-lg hover:bg-white/10 transition-colors border-b border-white/10"
-                >
-                  {item.label}
-                </Link>
-              ))}
+              {mobileNavItems.map((item) => {
+                const className = item.external
+                  ? "mt-2 rounded-full bg-[#FDC938] px-4 py-3 text-center text-lg font-semibold text-[#001F63] transition-colors hover:bg-[#ffd85f] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+                  : "rounded-lg border-b border-white/10 px-4 py-3 text-lg font-medium text-white transition-colors hover:bg-white/10";
+
+                if (item.external) {
+                  return (
+                    <a
+                      key={item.label}
+                      href={item.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                      className={className}
+                      aria-label="Acessar aplicativo Meu Futuro (abre em nova aba)"
+                    >
+                      {item.label}
+                    </a>
+                  );
+                }
+
+                return (
+                  <Link
+                    key={item.label}
+                    href={item.href}
+                    onClick={() => setIsMobileMenuOpen(false)}
+                    className={className}
+                  >
+                    {item.label}
+                  </Link>
+                );
+              })}
             </div>
             {/* Mobile Social Icons */}
             <div className="flex items-center justify-center gap-6 mt-6 pt-6 border-t border-white/20">

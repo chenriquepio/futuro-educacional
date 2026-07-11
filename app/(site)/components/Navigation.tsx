@@ -50,7 +50,7 @@ export default function Navigation() {
   };
 
   return (
-    <div className="hidden lg:flex items-center gap-2">
+    <div className="hidden xl:flex items-center gap-2">
       {navItems.map((item) => {
         const isClicked = clickedSection === item.id;
         const isContato = item.id === "contato";
@@ -185,6 +185,15 @@ export default function Navigation() {
           </a>
         );
       })}
+      <a
+        href="https://meu-futuro-homolog.web.app/"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex shrink-0 items-center rounded-full border-[3px] border-[#FDC938] bg-[#FDC938] px-4 py-2 text-sm font-semibold text-[#001F63] transition-colors hover:bg-[#ffd85f] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+        aria-label="Acessar aplicativo Meu Futuro (abre em nova aba)"
+      >
+        Acessar Meu Futuro
+      </a>
     </div>
   );
 }
